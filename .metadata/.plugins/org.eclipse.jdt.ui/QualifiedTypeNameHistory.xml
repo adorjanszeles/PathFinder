@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.neo4j.ogm.annotation.NodeEntity"/>
+<fullyQualifiedTypeName name="org.neo4j.ogm.annotation.GraphId"/>
+<fullyQualifiedTypeName name="org.springframework.data.neo4j.repository.GraphRepository"/>
+<fullyQualifiedTypeName name="pathfinder.model.entities.User"/>
+</qualifiedTypeNameHistroy>

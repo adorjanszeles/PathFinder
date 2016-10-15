@@ -1,0 +1,5 @@
+package pathfinder.model.repositories;
+
+public class UserRepository {
+
+}
