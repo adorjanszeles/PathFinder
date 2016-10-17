@@ -3,6 +3,11 @@ package pathfinder.model.nodes;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 @NodeEntity
 public class User {
 
@@ -10,6 +15,7 @@ public class User {
 	private Long userId;
 	
 	private String email;
+	@JsonIgnore
 	private String password;
 	private String name;
 	private Integer age;

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {"pathfinder.services"})
 @Configuration
-@EnableNeo4jRepositories(basePackages = "pathfinder.repositories")
+@EnableNeo4jRepositories(basePackages = "pathfinder.model.repositories")
 public class PfNeo4jConfiguration extends Neo4jConfiguration {
 
 	@Bean
@@ -27,7 +27,7 @@ public class PfNeo4jConfiguration extends Neo4jConfiguration {
         config
                 .driverConfiguration()
                 .setDriverClassName("org.neo4j.ogm.drivers.http.driver.HttpDriver")
-                .setURI("http://localhost:7474");
+                .setURI("http://localhost:7474").setCredentials("neo4j", "Jelszo12AA");
         return config;
     }
 

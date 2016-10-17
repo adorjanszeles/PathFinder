@@ -7,7 +7,5 @@ import pathfinder.model.nodes.User;
 
 @Repository
 public interface UserRepository extends GraphRepository<User> {
-
-	
-	
+	//
 }
