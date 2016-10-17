@@ -1,0 +1,16 @@
+package pathfinder.controller;
+
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class PathfinderController {
+
+	@RequestMapping
+	public String welcome() {
+		return "welcome";
+	}
+	
+	
+	
+}
