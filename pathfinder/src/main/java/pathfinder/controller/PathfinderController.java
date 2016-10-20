@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ import pathfinder.services.VehicleService;
 @Configuration
 @Import(PfNeo4jConfiguration.class)
 @RequestMapping("/")
+@SpringBootApplication
 public class PathfinderController extends WebMvcConfigurerAdapter {
 
 	@Autowired
@@ -74,5 +76,15 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	public @ResponseBody void deleteVehicle(@RequestBody Vehicle vehicle) {
 		vehicleService.deleteVehicle(vehicle);
 	}
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String redirect() {
+        return "redirect:index.jsf";
+    }
+
+    @RequestMapping(value = "/starter", method = RequestMethod.GET)
+    public String redirectTOStart() {
+        return "redirect:content/starter.jsf";
+    }
 
 }
