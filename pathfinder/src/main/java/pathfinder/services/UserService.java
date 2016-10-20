@@ -23,6 +23,10 @@ public class UserService {
 		userRepository.save(user);
 	}
 
+	public User findById(Long userId) {
+		return userRepository.findOne(userId);
+	}
+	
 	public List<User> getAllUser() {
 		List<User> result = new ArrayList<User>();
 		Iterator<User> iterator = userRepository.findAll().iterator();
@@ -38,7 +42,6 @@ public class UserService {
 		persistedUser.setEmail(user.getEmail());
 		persistedUser.setName(user.getName());
 		persistedUser.setPassword(user.getPassword());
-		userRepository.save(persistedUser);
 		return userRepository.save(persistedUser);
 	}
 	

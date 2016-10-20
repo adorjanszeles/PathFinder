@@ -15,7 +15,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import pathfinder.config.PfNeo4jConfiguration;
 import pathfinder.model.nodes.User;
+import pathfinder.model.nodes.Vehicle;
 import pathfinder.services.UserService;
+import pathfinder.services.VehicleService;
 
 @Configuration
 @Import(PfNeo4jConfiguration.class)
@@ -25,14 +27,13 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private VehicleService vehicleService;
+	
+	// TODO kiemelni vmi app osztályba
 	public static void main(String[] args) throws IOException {
         SpringApplication.run(PathfinderController.class, args);
     }
-	
-	@RequestMapping(value= "/hello", method = RequestMethod.GET, produces = {"application/json"} )
-	public @ResponseBody String printHello() {
-		return "hello";
-	}
 	
 	@RequestMapping(value= "/user", method = RequestMethod.GET, produces = {"application/json"} )
 	public @ResponseBody List<User> getUsers() {
@@ -52,6 +53,26 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	@RequestMapping(value = "/user", method = RequestMethod.DELETE, consumes = {"application/json"})
 	public @ResponseBody void deleteUser(@RequestBody User user) {
 		userService.deleteUser(user);
+	}
+	
+	@RequestMapping(value= "/vehicle", method = RequestMethod.GET, produces = {"application/json"} )
+	public @ResponseBody List<Vehicle> getVehicles() {
+		return vehicleService.getAllVehicles();
+	}
+	
+	@RequestMapping(value="/vehicle", method = RequestMethod.POST, consumes = {"application/json"})
+	public @ResponseBody void saveVehicle(@RequestBody Vehicle vehicle) {
+		vehicleService.saveVehicle(vehicle);
+	}
+	
+	@RequestMapping(value = "/vehicle", method = RequestMethod.PUT, consumes = {"application/json"})
+	public @ResponseBody Vehicle modifyVehicle(@RequestBody Vehicle vehicle) {
+		return vehicleService.modifyVehicle(vehicle);
+	}
+	
+	@RequestMapping(value = "/vehicle", method = RequestMethod.DELETE, consumes = {"application/json"})
+	public @ResponseBody void deleteVehicle(@RequestBody Vehicle vehicle) {
+		vehicleService.deleteVehicle(vehicle);
 	}
 
 }

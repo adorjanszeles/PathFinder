@@ -1,13 +1,16 @@
 package pathfinder.model.nodes;
 
+import java.util.List;
+
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
-@JsonIdentityInfo(generator=JSOGGenerator.class)
+//@JsonIdentityInfo(generator=JSOGGenerator.class)
 @NodeEntity
 public class User {
 
@@ -20,6 +23,18 @@ public class User {
 	private String name;
 	private Integer age;
 	
+	@JsonIgnore
+	@Relationship(type="OWNER", direction=Relationship.INCOMING)
+	private List<Vehicle> vehicles;
+	
+	public List<Vehicle> getVehicles() {
+		return vehicles;
+	}
+
+	public void setVehicles(List<Vehicle> vehicles) {
+		this.vehicles = vehicles;
+	}
+
 	public Long getUserId() {
 		return userId;
 	}
