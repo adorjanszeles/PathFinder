@@ -1,7 +1,0 @@
-INDEX VERSION 1.3+G:\BME\MSC\DIPTERV\project\git\PathFinder\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-2847068491.index
-588742346.index
-1276700381.index
-1823032287.index
-2399106408.index
-909179655.index

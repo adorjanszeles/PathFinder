@@ -1,5 +1,0 @@
-package pathfinder.config;
-
-public class PfNeo4jConfiguration {
-
-}

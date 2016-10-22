@@ -1,5 +1,0 @@
-package pathfinder.model.repositories;
-
-public interface UserRepository {
-
-}

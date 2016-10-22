@@ -1,4 +1,0 @@
-pathfinder\config\PfNeo4jConfiguration.class
-pathfinder\model\repositories\UserRepository.class
-pathfinder\model\nodes\User.class
-pathfinder\controller\PathfinderController.class
