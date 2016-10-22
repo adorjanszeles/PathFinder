@@ -1,4 +1,11 @@
 language: java
 jdk:
   - oraclejdk8
+notifications:
+  email:
+    recipients:
+      - klinton1991@gmail.com
+      - laszlo.kiss9203@gmail.com
+      on_success: always
+      on_failure: always
 script: mvn clean verify
