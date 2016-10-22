@@ -1,11 +1,6 @@
 package pathfinder.controller;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,17 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
 import pathfinder.config.PfNeo4jConfiguration;
 import pathfinder.model.nodes.User;
 import pathfinder.model.nodes.Vehicle;
 import pathfinder.services.UserService;
 import pathfinder.services.VehicleService;
 
+import java.util.List;
+
 @Configuration
 @Import(PfNeo4jConfiguration.class)
 @RequestMapping("/")
-@SpringBootApplication
 public class PathfinderController extends WebMvcConfigurerAdapter {
 
 	@Autowired
@@ -31,11 +26,6 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	
 	@Autowired
 	private VehicleService vehicleService;
-	
-	// TODO kiemelni vmi app osztályba
-	public static void main(String[] args) throws IOException {
-        SpringApplication.run(PathfinderController.class, args);
-    }
 	
 	@RequestMapping(value= "/user", method = RequestMethod.GET, produces = {"application/json"} )
 	public @ResponseBody List<User> getUsers() {
