@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition>
+    <h:form>
+        <p:menubar style="background: #DCDCDC !important;">
+            <p:submenu label="#{label.vehicles}" icon="ui-icon-clipboard">
+                <p:menuitem value="Új" ajax="false" icon="ui-icon-plus" />
+                <p:menuitem value="Keresés" ajax="false" icon="ui-icon-search" />
+            </p:submenu>
+
+            <p:submenu label="Felhasználók" icon="ui-icon-person">
+                <p:menuitem value="Új" ajax="false" icon="ui-icon-plus" />
+                <p:menuitem value="Keresés" ajax="false" icon="ui-icon-search" />
+            </p:submenu>
+
+            <p:submenu label="Feladatok" icon="ui-icon-document">
+                <p:menuitem value="Új" ajax="false" icon="ui-icon-plus" />
+                <p:menuitem value="Keresés" ajax="false" icon="ui-icon-search" />
+                <p:separator/>
+                <p:menuitem value="Saját feladatok" ajax="false" icon="ui-icon-tag"/>
+            </p:submenu>
+
+            <f:facet name="options">
+                <p:commandButton value="Kijelentkezés" icon="ui-icon-extlink" update="growl" ajax="false"/>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+    <p:growl id="growl"/>
+</ui:composition>
+</html>

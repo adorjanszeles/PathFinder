@@ -67,14 +67,9 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 		vehicleService.deleteVehicle(vehicle);
 	}
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String redirect() {
-        return "redirect:index.jsf";
-    }
-
-    @RequestMapping(value = "/starter", method = RequestMethod.GET)
-    public String redirectTOStart() {
-        return "redirect:content/starter.jsf";
-    }
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String redirectToWelcomePage() {
+		return "redirect:login/login.jsf";
+	}
 
 }
