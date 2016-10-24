@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import pathfinder.model.nodes.City;
 import pathfinder.model.repositories.CityRepository;
@@ -18,33 +17,49 @@ public class CityService {
 
 	@Autowired
 	private CityRepository cityRepository;
-	
-	public void saveCity(City city) {
-		cityRepository.save(city);
+
+	public void deleteCity(Long cityId) {
+		City persistedCity = this.cityRepository.findOne(cityId);
+		if (persistedCity == null) {
+			// TODO 404 hiba
+		}
+		this.cityRepository.delete(persistedCity);
 	}
 
 	public City findById(Long cityId) {
-		return cityRepository.findOne(cityId);
+		return this.cityRepository.findOne(cityId);
 	}
-	 
+
 	public List<City> getAllCities() {
 		List<City> result = new ArrayList<City>();
-		Iterator<City> iterator = cityRepository.findAll().iterator();
+		Iterator<City> iterator = this.cityRepository.findAll().iterator();
 		while (iterator.hasNext()) {
 			result.add(iterator.next());
 		}
 		return result;
 	}
-	
-	public City modifyCiy(City city) {
-		City persistedCity = this.cityRepository.findOne(city.getCityId());
+
+	public City getCityWithRoutes(Long cityId) {
+		City persistedCity = this.cityRepository.findOne(cityId);
+		if (persistedCity == null) {
+			// TODO 404 hiba
+		}
+		persistedCity.setRoutesToCity(this.cityRepository.findRoutesToCity(cityId));
+		persistedCity.setRoutesFromCity(this.cityRepository.findRoutesFromCity(cityId));
+		return persistedCity;
+	}
+
+	public City modifyCiy(Long cityId, City city) {
+		City persistedCity = this.cityRepository.findOne(cityId);
+		if (persistedCity == null) {
+			// TODO 404 hiba
+		}
+		// TODO validáció
 		persistedCity.setName(city.getName());
-		return cityRepository.save(persistedCity);
+		return this.cityRepository.save(persistedCity);
 	}
-	
-	public void deleteCity(City city) {
-		City persistedCity = cityRepository.findOne(city.getCityId());
-		Assert.notNull(persistedCity);
-		cityRepository.delete(persistedCity);
+
+	public void saveCity(City city) {
+		this.cityRepository.save(city);
 	}
-} 
+}

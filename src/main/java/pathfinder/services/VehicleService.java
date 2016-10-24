@@ -61,8 +61,11 @@ public class VehicleService {
 		return this.vehicleRepository.findVehiclesOfUser(userId);
 	}
 
-	public Vehicle modifyVehicle(Vehicle vehicle) {
-		Vehicle persistedVehicle = this.vehicleRepository.findOne(vehicle.getVehicleId());
+	public Vehicle modifyVehicle(Long vehicleId, Vehicle vehicle) {
+		Vehicle persistedVehicle = this.vehicleRepository.findOne(vehicleId);
+		if (persistedVehicle == null) {
+			// TODO 404 hiba
+		}
 		persistedVehicle.setHeight(vehicle.getHeight());
 		persistedVehicle.setLength(vehicle.getLength());
 		persistedVehicle.setWeight(vehicle.getWeight());

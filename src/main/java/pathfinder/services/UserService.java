@@ -14,43 +14,46 @@ import pathfinder.model.nodes.User;
 import pathfinder.model.repositories.UserRepository;
 
 @Service
-@Transactional(readOnly = false,rollbackFor=Exception.class)
+@Transactional(readOnly = false, rollbackFor = Exception.class)
 public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
-	public void saveUser(User user) {
-		user.setRole(RoleEnum.USER);
-		userRepository.save(user);
+
+	public void deleteUser(Long userId) {
+		User persistedUser = this.userRepository.findOne(userId);
+		Assert.notNull(persistedUser);
+		this.userRepository.delete(persistedUser);
 	}
 
 	public User findById(Long userId) {
-		return userRepository.findOne(userId);
+		return this.userRepository.findOne(userId);
 	}
-	
+
 	public List<User> getAllUser() {
 		List<User> result = new ArrayList<User>();
-		Iterator<User> iterator = userRepository.findAll().iterator();
+		Iterator<User> iterator = this.userRepository.findAll().iterator();
 		while (iterator.hasNext()) {
 			result.add(iterator.next());
 		}
 		return result;
 	}
-	
-	public User modifyUser(User user) {
-		User persistedUser = this.userRepository.findOne(user.getUserId());
+
+	public User modifyUser(Long userId, User user) {
+		User persistedUser = this.userRepository.findOne(userId);
+		if (persistedUser == null) {
+			// TODO 404 hiba
+		}
 		persistedUser.setAge(user.getAge());
 		persistedUser.setEmail(user.getEmail());
 		persistedUser.setName(user.getName());
 		persistedUser.setPassword(user.getPassword());
-		return userRepository.save(persistedUser);
+		return this.userRepository.save(persistedUser);
 	}
-	
-	public void deleteUser(Long userId) {
-		User persistedUser = userRepository.findOne(userId);
-		Assert.notNull(persistedUser);
-		userRepository.delete(persistedUser);
+
+	public void saveUser(User user) {
+		user.setRole(RoleEnum.USER);
+		this.userRepository.save(user);
 	}
-	
+
 }

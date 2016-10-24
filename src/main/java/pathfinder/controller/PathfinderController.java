@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import pathfinder.config.PfNeo4jConfiguration;
+import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.User;
 import pathfinder.model.nodes.Vehicle;
+import pathfinder.services.CityService;
 import pathfinder.services.UserService;
 import pathfinder.services.VehicleService;
 
@@ -24,10 +26,23 @@ import pathfinder.services.VehicleService;
 public class PathfinderController extends WebMvcConfigurerAdapter {
 
 	@Autowired
+	private CityService cityService;
+
+	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private VehicleService vehicleService;
+
+	/**
+	 * Város törlése TODO csak admin joggal
+	 * 
+	 * @param cityId
+	 */
+	@RequestMapping(value = "/city/{cityId}", method = RequestMethod.DELETE)
+	public @ResponseBody void deleteCity(@PathVariable("cityId") Long cityId) {
+		this.cityService.deleteCity(cityId);
+	}
 
 	/**
 	 * Felhasználó törlése. TODO Csak admin joggal!
@@ -40,11 +55,33 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 
 	/**
 	 * Jármű törlése
+	 * 
 	 * @param vehicle
 	 */
 	@RequestMapping(value = "/vehicle/{vehicleId}", method = RequestMethod.DELETE)
 	public @ResponseBody void deleteVehicle(@PathVariable("vehicleId") Long vehicleId) {
 		this.vehicleService.deleteVehicle(vehicleId);
+	}
+
+	/**
+	 * Összes város lekérdezése.
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/city", method = RequestMethod.GET, produces = { "application/json" })
+	public @ResponseBody List<City> getCities() {
+		return this.cityService.getAllCities();
+	}
+
+	/**
+	 * Egy város és a hozzá tartozó utak lekérdezése.
+	 * 
+	 * @param cityId
+	 * @return
+	 */
+	@RequestMapping(value = "/city/{cityId}", method = RequestMethod.GET, produces = { "application/json" })
+	public @ResponseBody City getCityWithRoutes(@PathVariable("cityId") Long cityId) {
+		return this.cityService.getCityWithRoutes(cityId);
 	}
 
 	/**
@@ -100,15 +137,29 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	}
 
 	/**
+	 * Város módosítása TODO csak admin joggal
+	 * 
+	 * @param cityId
+	 * @param city
+	 * @return
+	 */
+	@RequestMapping(value = "/city/{cityId}", method = RequestMethod.PUT, consumes = {
+			"application/json" }, produces = { "application/json" })
+	public @ResponseBody City modifyCity(@PathVariable("cityId") Long cityId, @RequestBody City city) {
+		return this.cityService.modifyCiy(cityId, city);
+	}
+
+	/**
 	 * Felhasználó adatainak módosítása.
 	 * 
 	 * @param user
 	 * @return
 	 */
-	@RequestMapping(value = "/user", method = RequestMethod.PUT, consumes = { "application/json" })
-	public @ResponseBody User modifyUser(@RequestBody User user) {
+	@RequestMapping(value = "/user/{userId}", method = RequestMethod.PUT, consumes = {
+			"application/json" }, produces = { "application/json" })
+	public @ResponseBody User modifyUser(@PathVariable("userId") Long userId, @RequestBody User user) {
 		// Kezelni kell, hogy csak admin joggal lehet más usert módosítani!
-		return this.userService.modifyUser(user);
+		return this.userService.modifyUser(userId, user);
 	}
 
 	/**
@@ -118,14 +169,26 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @param vehicle
 	 * @return
 	 */
-	@RequestMapping(value = "/vehicle", method = RequestMethod.PUT, consumes = { "application/json" })
-	public @ResponseBody Vehicle modifyVehicle(@RequestBody Vehicle vehicle) {
-		return this.vehicleService.modifyVehicle(vehicle);
+	@RequestMapping(value = "/vehicle/{vehicleId}", method = RequestMethod.PUT, consumes = {
+			"application/json" }, produces = { "application/json" })
+	public @ResponseBody Vehicle modifyVehicle(@PathVariable("vehicleId") Long vehicleId,
+			@RequestBody Vehicle vehicle) {
+		return this.vehicleService.modifyVehicle(vehicleId, vehicle);
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String redirectToWelcomePage() {
 		return "redirect:login/login.jsf";
+	}
+
+	/**
+	 * Új város felvétele TODO csak admin joggal
+	 * 
+	 * @param city
+	 */
+	@RequestMapping(value = "/city", method = RequestMethod.POST, consumes = { "application/json" })
+	public @ResponseBody void saveCity(@RequestBody City city) {
+		this.cityService.saveCity(city);
 	}
 
 	/**
