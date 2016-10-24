@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import pathfinder.common.RoleEnum;
 import pathfinder.model.nodes.User;
 import pathfinder.model.repositories.UserRepository;
 
@@ -20,6 +21,7 @@ public class UserService {
 	private UserRepository userRepository;
 	
 	public void saveUser(User user) {
+		user.setRole(RoleEnum.USER);
 		userRepository.save(user);
 	}
 
@@ -45,8 +47,8 @@ public class UserService {
 		return userRepository.save(persistedUser);
 	}
 	
-	public void deleteUser(User user) {
-		User persistedUser = userRepository.findOne(user.getUserId());
+	public void deleteUser(Long userId) {
+		User persistedUser = userRepository.findOne(userId);
 		Assert.notNull(persistedUser);
 		userRepository.delete(persistedUser);
 	}

@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
+import pathfinder.common.RoleEnum;
+
 //@JsonIdentityInfo(generator=JSOGGenerator.class)
 @NodeEntity
 public class User {
@@ -23,6 +25,16 @@ public class User {
 	private String name;
 	private Integer age;
 	
+	private RoleEnum role;
+	
+	public RoleEnum getRole() {
+		return role;
+	}
+
+	public void setRole(RoleEnum role) {
+		this.role = role;
+	}
+
 	@JsonIgnore
 	@Relationship(type="OWNER", direction=Relationship.INCOMING)
 	private List<Vehicle> vehicles;
