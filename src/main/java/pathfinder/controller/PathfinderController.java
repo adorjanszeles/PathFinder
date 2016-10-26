@@ -14,9 +14,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import pathfinder.config.PfNeo4jConfiguration;
 import pathfinder.model.nodes.City;
+import pathfinder.model.nodes.Route;
 import pathfinder.model.nodes.User;
 import pathfinder.model.nodes.Vehicle;
 import pathfinder.services.CityService;
+import pathfinder.services.RouteService;
 import pathfinder.services.UserService;
 import pathfinder.services.VehicleService;
 
@@ -27,6 +29,9 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 
 	@Autowired
 	private CityService cityService;
+
+	@Autowired
+	private RouteService routeService;
 
 	@Autowired
 	private UserService userService;
@@ -42,6 +47,16 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	@RequestMapping(value = "/city/{cityId}", method = RequestMethod.DELETE)
 	public @ResponseBody void deleteCity(@PathVariable("cityId") Long cityId) {
 		this.cityService.deleteCity(cityId);
+	}
+
+	/**
+	 * Útvonal törlése TODO csak admin joggal
+	 * 
+	 * @param routeId
+	 */
+	@RequestMapping(value = "/route/{routeId}", method = RequestMethod.DELETE)
+	public @ResponseBody void deleteRoute(@PathVariable("routeId") Long routeId) {
+		this.routeService.deleteRoute(routeId);
 	}
 
 	/**
@@ -82,6 +97,27 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	@RequestMapping(value = "/city/{cityId}", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody City getCityWithRoutes(@PathVariable("cityId") Long cityId) {
 		return this.cityService.getCityWithRoutes(cityId);
+	}
+
+	/**
+	 * Összes út lekérdezése.
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/route", method = RequestMethod.GET, produces = { "application/json" })
+	public @ResponseBody List<Route> getRoutes() {
+		return this.routeService.getAllRoute();
+	}
+
+	/**
+	 * Egy út és a hozzá tartozó városok lekérdezése.
+	 * 
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/route/{routeId}", method = RequestMethod.GET, produces = { "application/json" })
+	public @ResponseBody Route getRouteWithCities(@PathVariable("routeId") Long routeId) {
+		return this.routeService.getRouteWithCities(routeId);
 	}
 
 	/**
@@ -150,6 +186,19 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	}
 
 	/**
+	 * Útvonal módosítása TODO csak admin joggal
+	 * 
+	 * @param routeId
+	 * @param route
+	 * @return
+	 */
+	@RequestMapping(value = "/route/{routeId}", method = RequestMethod.PUT, consumes = {
+			"application/json" }, produces = { "application/json" })
+	public @ResponseBody Route modifyRoute(@PathVariable("routeId") Long routeId, @RequestBody Route route) {
+		return this.routeService.modifyRoute(routeId, route);
+	}
+
+	/**
 	 * Felhasználó adatainak módosítása.
 	 * 
 	 * @param user
@@ -186,9 +235,21 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * 
 	 * @param city
 	 */
-	@RequestMapping(value = "/city", method = RequestMethod.POST, consumes = { "application/json" })
-	public @ResponseBody void saveCity(@RequestBody City city) {
-		this.cityService.saveCity(city);
+	@RequestMapping(value = "/city", method = RequestMethod.POST, consumes = { "application/json" }, produces = {
+			"application/json" })
+	public @ResponseBody City saveCity(@RequestBody City city) {
+		return this.cityService.saveCity(city);
+	}
+
+	/**
+	 * Új útvonal mentése TODO csak admin joggal
+	 * 
+	 * @param route
+	 */
+	@RequestMapping(value = "/route", method = RequestMethod.POST, consumes = { "application/json" }, produces = {
+			"application/json" })
+	public @ResponseBody Route saveRoute(@RequestBody Route route) {
+		return this.routeService.saveRoute(route);
 	}
 
 	/**
@@ -196,9 +257,10 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * 
 	 * @param user
 	 */
-	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = { "application/json" })
-	public @ResponseBody void saveUser(@RequestBody User user) {
-		this.userService.saveUser(user);
+	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = { "application/json" }, produces = {
+			"application/json" })
+	public @ResponseBody User saveUser(@RequestBody User user) {
+		return this.userService.saveUser(user);
 	}
 
 	/**
@@ -207,9 +269,10 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * 
 	 * @param vehicle
 	 */
-	@RequestMapping(value = "/vehicle", method = RequestMethod.POST, consumes = { "application/json" })
-	public @ResponseBody void saveVehicle(@RequestBody Vehicle vehicle) {
-		this.vehicleService.saveVehicle(vehicle);
+	@RequestMapping(value = "/vehicle", method = RequestMethod.POST, consumes = { "application/json" }, produces = {
+			"application/json" })
+	public @ResponseBody Vehicle saveVehicle(@RequestBody Vehicle vehicle) {
+		return this.vehicleService.saveVehicle(vehicle);
 	}
 
 }

@@ -5,65 +5,105 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.RelationshipEntity;
 import org.neo4j.ogm.annotation.StartNode;
 
-@RelationshipEntity(type="ROUTE")
+/**
+ * ROUTE kapcsolat 2 City node között.
+ * 
+ * @author Kiss László
+ *
+ */
+@RelationshipEntity(type = "ROUTE")
 public class Route {
+
+	/**
+	 * Cél város
+	 */
+	@EndNode
+	private City destinationCity;
+
+	/**
+	 * Maximális magasság
+	 */
+	private Long maxHeight;
+
+	/**
+	 * Maximális hosszúság
+	 */
+	private Long maxLength;
+
+	private Long maxWeight;
+
+	private Long maxWidth;
+
+	private String name;
 
 	@GraphId
 	private Long routeId;
-	
+
 	@StartNode
 	private City startingCity;
-	
-	@EndNode
-	private City destinationCity;
-	
-	private Long maxHeight;
-	private Long maxWidth;
-	private Long maxLength;
-	private Long maxWeight;
-	
-	public Long getRouteId() {
-		return routeId;
-	}
-	public void setRouteId(Long routeId) {
-		this.routeId = routeId;
-	}
-	public City getStartingCity() {
-		return startingCity;
-	}
-	public void setStartingCity(City startingCity) {
-		this.startingCity = startingCity;
-	}
+
 	public City getDestinationCity() {
-		return destinationCity;
+		return this.destinationCity;
 	}
+
+	public Long getMaxHeight() {
+		return this.maxHeight;
+	}
+
+	public Long getMaxLength() {
+		return this.maxLength;
+	}
+
+	public Long getMaxWeight() {
+		return this.maxWeight;
+	}
+
+	public Long getMaxWidth() {
+		return this.maxWidth;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public Long getRouteId() {
+		return this.routeId;
+	}
+
+	public City getStartingCity() {
+		return this.startingCity;
+	}
+
 	public void setDestinationCity(City destinationCity) {
 		this.destinationCity = destinationCity;
 	}
-	public Long getMaxHeight() {
-		return maxHeight;
-	}
+
 	public void setMaxHeight(Long maxHeight) {
 		this.maxHeight = maxHeight;
 	}
-	public Long getMaxWidth() {
-		return maxWidth;
-	}
-	public void setMaxWidth(Long maxWidth) {
-		this.maxWidth = maxWidth;
-	}
-	public Long getMaxLength() {
-		return maxLength;
-	}
+
 	public void setMaxLength(Long maxLength) {
 		this.maxLength = maxLength;
 	}
-	public Long getMaxWeight() {
-		return maxWeight;
-	}
+
 	public void setMaxWeight(Long maxWeight) {
 		this.maxWeight = maxWeight;
 	}
-	
-	
+
+	public void setMaxWidth(Long maxWidth) {
+		this.maxWidth = maxWidth;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setRouteId(Long routeId) {
+		this.routeId = routeId;
+	}
+
+	public void setStartingCity(City startingCity) {
+		this.startingCity = startingCity;
+	}
+
 }

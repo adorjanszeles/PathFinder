@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import pathfinder.exceptions.CityNotFoundException;
 import pathfinder.model.nodes.City;
 import pathfinder.model.repositories.CityRepository;
 
@@ -21,7 +22,7 @@ public class CityService {
 	public void deleteCity(Long cityId) {
 		City persistedCity = this.cityRepository.findOne(cityId);
 		if (persistedCity == null) {
-			// TODO 404 hiba
+			throw new CityNotFoundException();
 		}
 		this.cityRepository.delete(persistedCity);
 	}
@@ -42,7 +43,7 @@ public class CityService {
 	public City getCityWithRoutes(Long cityId) {
 		City persistedCity = this.cityRepository.findOne(cityId);
 		if (persistedCity == null) {
-			// TODO 404 hiba
+			throw new CityNotFoundException();
 		}
 		persistedCity.setRoutesToCity(this.cityRepository.findRoutesToCity(cityId));
 		persistedCity.setRoutesFromCity(this.cityRepository.findRoutesFromCity(cityId));
@@ -52,14 +53,14 @@ public class CityService {
 	public City modifyCiy(Long cityId, City city) {
 		City persistedCity = this.cityRepository.findOne(cityId);
 		if (persistedCity == null) {
-			// TODO 404 hiba
+			throw new CityNotFoundException();
 		}
 		// TODO validáció
 		persistedCity.setName(city.getName());
 		return this.cityRepository.save(persistedCity);
 	}
 
-	public void saveCity(City city) {
-		this.cityRepository.save(city);
+	public City saveCity(City city) {
+		return this.cityRepository.save(city);
 	}
 }

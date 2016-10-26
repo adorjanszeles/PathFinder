@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import pathfinder.exceptions.UserNotFoundException;
+import pathfinder.exceptions.VehicleNotFoundException;
 import pathfinder.model.nodes.User;
 import pathfinder.model.nodes.Vehicle;
 import pathfinder.model.repositories.UserRepository;
@@ -26,7 +28,7 @@ public class VehicleService {
 	public void deleteVehicle(Long vehicleId) {
 		Vehicle persistedVehicle = this.vehicleRepository.findOne(vehicleId);
 		if (persistedVehicle == null) {
-			// TODO 404 hiba
+			throw new VehicleNotFoundException();
 		}
 		this.vehicleRepository.delete(persistedVehicle);
 	}
@@ -48,7 +50,7 @@ public class VehicleService {
 	public Vehicle getVehicleById(Long vehicleId) {
 		Vehicle vehicle = this.vehicleRepository.findOne(vehicleId);
 		if (vehicle == null) {
-			// 404 hiba
+			throw new VehicleNotFoundException();
 		}
 		return vehicle;
 	}
@@ -56,7 +58,7 @@ public class VehicleService {
 	public List<Vehicle> getVehiclesOfUser(Long userId) {
 		User user = this.userRepository.findOne(userId);
 		if (user == null) {
-			// 404 hiba
+			throw new UserNotFoundException();
 		}
 		return this.vehicleRepository.findVehiclesOfUser(userId);
 	}
@@ -64,7 +66,7 @@ public class VehicleService {
 	public Vehicle modifyVehicle(Long vehicleId, Vehicle vehicle) {
 		Vehicle persistedVehicle = this.vehicleRepository.findOne(vehicleId);
 		if (persistedVehicle == null) {
-			// TODO 404 hiba
+			throw new VehicleNotFoundException();
 		}
 		persistedVehicle.setHeight(vehicle.getHeight());
 		persistedVehicle.setLength(vehicle.getLength());
@@ -80,7 +82,7 @@ public class VehicleService {
 		return this.vehicleRepository.save(persistedVehicle);
 	}
 
-	public void saveVehicle(Vehicle vehicle) {
+	public Vehicle saveVehicle(Vehicle vehicle) {
 		User owner = this.userRepository.findOne(vehicle.getOwner().getUserId());
 		if (owner == null) {
 			// Bad message hiba
@@ -92,7 +94,7 @@ public class VehicleService {
 		persistedVehicle.setWeight(vehicle.getWeight());
 		persistedVehicle.setWidth(vehicle.getWidth());
 		persistedVehicle.setOwner(owner);
-		this.vehicleRepository.save(persistedVehicle);
+		return this.vehicleRepository.save(persistedVehicle);
 	}
 
 }

@@ -7,12 +7,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import pathfinder.common.RoleEnum;
+import pathfinder.exceptions.UserNotFoundException;
 import pathfinder.model.nodes.User;
 import pathfinder.model.repositories.UserRepository;
 
+/**
+ * {@link User} node kezelésére szolgáló Service osztály.
+ * 
+ * @author Kiss László
+ *
+ */
 @Service
 @Transactional(readOnly = false, rollbackFor = Exception.class)
 public class UserService {
@@ -22,12 +28,18 @@ public class UserService {
 
 	public void deleteUser(Long userId) {
 		User persistedUser = this.userRepository.findOne(userId);
-		Assert.notNull(persistedUser);
+		if (persistedUser == null) {
+			throw new UserNotFoundException();
+		}
 		this.userRepository.delete(persistedUser);
 	}
 
 	public User findById(Long userId) {
-		return this.userRepository.findOne(userId);
+		User result = this.userRepository.findOne(userId);
+		if (result == null) {
+			throw new UserNotFoundException();
+		}
+		return result;
 	}
 
 	public List<User> getAllUser() {
@@ -42,8 +54,9 @@ public class UserService {
 	public User modifyUser(Long userId, User user) {
 		User persistedUser = this.userRepository.findOne(userId);
 		if (persistedUser == null) {
-			// TODO 404 hiba
+			throw new UserNotFoundException();
 		}
+		// TODO validációk
 		persistedUser.setAge(user.getAge());
 		persistedUser.setEmail(user.getEmail());
 		persistedUser.setName(user.getName());
@@ -51,9 +64,10 @@ public class UserService {
 		return this.userRepository.save(persistedUser);
 	}
 
-	public void saveUser(User user) {
+	public User saveUser(User user) {
 		user.setRole(RoleEnum.USER);
-		this.userRepository.save(user);
+		// TODO validációk
+		return this.userRepository.save(user);
 	}
 
 }

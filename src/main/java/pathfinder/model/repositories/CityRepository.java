@@ -25,7 +25,7 @@ public interface CityRepository extends GraphRepository<City> {
 	 * @param cityId
 	 * @return
 	 */
-	@Query("MATCH (from:city)-[r:ROUTE]->(to:city) WHERE ID(from)={cityId} return r")
+	@Query("MATCH (from:City)-[r:ROUTE]->(to:City) WHERE ID(from)={cityId} return r")
 	List<Route> findRoutesFromCity(@Param("cityId") Long cityId);
 
 	/**
@@ -34,6 +34,6 @@ public interface CityRepository extends GraphRepository<City> {
 	 * @param cityId
 	 * @return
 	 */
-	@Query("MATCH (from:city)-[r:ROUTE]->(to:city) WHERE ID(to)={cityId} return r")
+	@Query("MATCH (from:City)-[r:ROUTE]->(to:City) WHERE ID(to)={cityId} return r")
 	List<Route> findRoutesToCity(@Param("cityId") Long cityId);
 }
