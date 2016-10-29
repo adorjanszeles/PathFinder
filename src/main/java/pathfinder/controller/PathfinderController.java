@@ -182,7 +182,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	@RequestMapping(value = "/city/{cityId}", method = RequestMethod.PUT, consumes = {
 			"application/json" }, produces = { "application/json" })
 	public @ResponseBody City modifyCity(@PathVariable("cityId") Long cityId, @RequestBody City city) {
-		return this.cityService.modifyCiy(cityId, city);
+		return this.cityService.modifyCity(cityId, city);
 	}
 
 	/**

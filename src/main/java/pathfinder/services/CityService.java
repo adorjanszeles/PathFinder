@@ -7,8 +7,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
-import pathfinder.exceptions.CityNotFoundException;
+import pathfinder.exceptions.badrequest.CityBadRequestException;
+import pathfinder.exceptions.notfound.CityNotFoundException;
 import pathfinder.model.nodes.City;
 import pathfinder.model.repositories.CityRepository;
 
@@ -25,6 +27,11 @@ public class CityService {
 			throw new CityNotFoundException();
 		}
 		this.cityRepository.delete(persistedCity);
+	}
+
+	private City doSaveCity(City persistedCity, City cityFromUI) {
+		persistedCity.setName(cityFromUI.getName());
+		return this.cityRepository.save(persistedCity);
 	}
 
 	public City findById(Long cityId) {
@@ -50,17 +57,24 @@ public class CityService {
 		return persistedCity;
 	}
 
-	public City modifyCiy(Long cityId, City city) {
+	public City modifyCity(Long cityId, City city) {
+		this.validateCity(city);
 		City persistedCity = this.cityRepository.findOne(cityId);
 		if (persistedCity == null) {
 			throw new CityNotFoundException();
 		}
-		// TODO validáció
-		persistedCity.setName(city.getName());
-		return this.cityRepository.save(persistedCity);
+		return this.doSaveCity(persistedCity, city);
 	}
 
 	public City saveCity(City city) {
-		return this.cityRepository.save(city);
+		this.validateCity(city);
+		City persistedCity = new City();
+		return this.doSaveCity(persistedCity, city);
+	}
+
+	private void validateCity(City city) {
+		if (StringUtils.isEmpty(city.getName())) {
+			throw new CityBadRequestException();
+		}
 	}
 }

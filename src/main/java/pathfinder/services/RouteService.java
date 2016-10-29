@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import pathfinder.exceptions.BadRequestException;
-import pathfinder.exceptions.RouteNotFoundException;
+import pathfinder.exceptions.badrequest.CityBadRequestException;
+import pathfinder.exceptions.badrequest.RouteBadRequestException;
+import pathfinder.exceptions.notfound.RouteNotFoundException;
 import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Route;
 import pathfinder.model.repositories.CityRepository;
@@ -33,6 +34,23 @@ public class RouteService {
 		this.routeRepository.delete(persistedRoute);
 	}
 
+	private Route doSaveRoute(Route persistedRoute, Route routeFromUI) {
+		persistedRoute.setMaxHeight(routeFromUI.getMaxHeight());
+		persistedRoute.setMaxLength(routeFromUI.getMaxLength());
+		persistedRoute.setMaxWeight(routeFromUI.getMaxWeight());
+		persistedRoute.setMaxWidth(routeFromUI.getMaxWidth());
+		City startingCity = this.cityRepository.findOne(routeFromUI.getStartingCity().getCityId());
+		if (startingCity == null) {
+			throw new CityBadRequestException();
+		}
+		persistedRoute.setStartingCity(startingCity);
+		City destinationCity = this.cityRepository.findOne(routeFromUI.getDestinationCity().getCityId());
+		if (destinationCity == null) {
+			throw new CityBadRequestException();
+		}
+		return this.routeRepository.save(persistedRoute);
+	}
+
 	public List<Route> getAllRoute() {
 		List<Route> result = new ArrayList<Route>();
 		Iterator<Route> iterator = this.routeRepository.findAll().iterator();
@@ -51,36 +69,25 @@ public class RouteService {
 	}
 
 	public Route modifyRoute(Long routeId, Route route) {
+		this.validateRoute(route);
 		Route persistedRoute = this.routeRepository.findOne(routeId);
 		if (persistedRoute == null) {
 			throw new RouteNotFoundException();
 		}
-		persistedRoute.setMaxHeight(route.getMaxHeight());
-		persistedRoute.setMaxLength(route.getMaxLength());
-		persistedRoute.setMaxWeight(route.getMaxWeight());
-		persistedRoute.setMaxWidth(route.getMaxWidth());
-		persistedRoute.setStartingCity(this.cityRepository.findOne(route.getStartingCity().getCityId()));
-		persistedRoute.setDestinationCity(this.cityRepository.findOne(route.getDestinationCity().getCityId()));
-		return this.routeRepository.save(persistedRoute);
+		return this.doSaveRoute(persistedRoute, route);
 	}
 
 	public Route saveRoute(Route route) {
+		this.validateRoute(route);
 		Route persistedRoute = new Route();
-		persistedRoute.setMaxHeight(route.getMaxHeight());
-		persistedRoute.setMaxLength(route.getMaxLength());
-		persistedRoute.setMaxWeight(route.getMaxWeight());
-		persistedRoute.setMaxWidth(route.getMaxWidth());
-		City startingCity = this.cityRepository.findOne(route.getStartingCity().getCityId());
-		if (startingCity == null) {
-			throw new BadRequestException();
+		return this.doSaveRoute(persistedRoute, route);
+	}
+
+	private void validateRoute(Route route) {
+		if (route.getMaxHeight() < 0 || route.getMaxLength() < 0 || route.getMaxWeight() < 0 || route.getMaxWidth() < 0
+				|| route.getDestinationCity() == null || route.getStartingCity() == null) {
+			throw new RouteBadRequestException();
 		}
-		persistedRoute.setStartingCity(startingCity);
-		City destinationCity = this.cityRepository.findOne(route.getDestinationCity().getCityId());
-		if (destinationCity == null) {
-			// bad request
-		}
-		persistedRoute.setDestinationCity(destinationCity);
-		return this.routeRepository.save(persistedRoute);
 	}
 
 }

@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import pathfinder.exceptions.UserNotFoundException;
-import pathfinder.exceptions.VehicleNotFoundException;
+import pathfinder.exceptions.badrequest.UserBadRequestException;
+import pathfinder.exceptions.badrequest.VehicleBadRequestException;
+import pathfinder.exceptions.notfound.UserNotFoundException;
+import pathfinder.exceptions.notfound.VehicleNotFoundException;
 import pathfinder.model.nodes.User;
 import pathfinder.model.nodes.Vehicle;
 import pathfinder.model.repositories.UserRepository;
@@ -31,6 +33,19 @@ public class VehicleService {
 			throw new VehicleNotFoundException();
 		}
 		this.vehicleRepository.delete(persistedVehicle);
+	}
+
+	private Vehicle doSaveVehicle(Vehicle persistedVehicle, Vehicle vehicleFromUI) {
+		User owner = this.userRepository.findOne(vehicleFromUI.getOwner().getUserId());
+		if (owner == null) {
+			throw new UserBadRequestException();
+		}
+		persistedVehicle.setHeight(vehicleFromUI.getHeight());
+		persistedVehicle.setLength(vehicleFromUI.getLength());
+		persistedVehicle.setWeight(vehicleFromUI.getWeight());
+		persistedVehicle.setWidth(vehicleFromUI.getWidth());
+		persistedVehicle.setOwner(owner);
+		return this.vehicleRepository.save(persistedVehicle);
 	}
 
 	public Vehicle findById(Long vehicleId) {
@@ -64,37 +79,24 @@ public class VehicleService {
 	}
 
 	public Vehicle modifyVehicle(Long vehicleId, Vehicle vehicle) {
+		this.validateVehicle(vehicle);
 		Vehicle persistedVehicle = this.vehicleRepository.findOne(vehicleId);
-		if (persistedVehicle == null) {
-			throw new VehicleNotFoundException();
-		}
-		persistedVehicle.setHeight(vehicle.getHeight());
-		persistedVehicle.setLength(vehicle.getLength());
-		persistedVehicle.setWeight(vehicle.getWeight());
-		persistedVehicle.setWidth(vehicle.getWidth());
-		User owner = this.userRepository.findOne(vehicle.getOwner().getUserId());
-		if (owner == null) {
-			// TODO bad message hiba
-		}
-		// TODO validáció
-		persistedVehicle.setOwner(owner);
-		this.vehicleRepository.save(persistedVehicle);
-		return this.vehicleRepository.save(persistedVehicle);
+		return this.doSaveVehicle(persistedVehicle, vehicle);
 	}
 
 	public Vehicle saveVehicle(Vehicle vehicle) {
-		User owner = this.userRepository.findOne(vehicle.getOwner().getUserId());
-		if (owner == null) {
-			// Bad message hiba
-		}
-		// TODO validáció
+		this.validateVehicle(vehicle);
 		Vehicle persistedVehicle = new Vehicle();
-		persistedVehicle.setHeight(vehicle.getHeight());
-		persistedVehicle.setLength(vehicle.getLength());
-		persistedVehicle.setWeight(vehicle.getWeight());
-		persistedVehicle.setWidth(vehicle.getWidth());
-		persistedVehicle.setOwner(owner);
-		return this.vehicleRepository.save(persistedVehicle);
+		return this.doSaveVehicle(persistedVehicle, vehicle);
+	}
+
+	private void validateVehicle(Vehicle vehicle) {
+		if (vehicle.getHeight() == null || vehicle.getHeight().compareTo(0L) <= 0 || vehicle.getLength() == null
+				|| vehicle.getLength().compareTo(0L) <= 0 || vehicle.getOwner() == null || vehicle.getWeight() == null
+				|| vehicle.getWeight().compareTo(0L) <= 0 || vehicle.getWidth() == null
+				|| vehicle.getWidth().compareTo(0L) <= 0) {
+			throw new VehicleBadRequestException();
+		}
 	}
 
 }

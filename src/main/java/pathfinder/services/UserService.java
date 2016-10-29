@@ -7,9 +7,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import pathfinder.common.RoleEnum;
-import pathfinder.exceptions.UserNotFoundException;
+import pathfinder.exceptions.badrequest.UserBadRequestException;
+import pathfinder.exceptions.notfound.UserNotFoundException;
 import pathfinder.model.nodes.User;
 import pathfinder.model.repositories.UserRepository;
 
@@ -34,6 +36,14 @@ public class UserService {
 		this.userRepository.delete(persistedUser);
 	}
 
+	private User doSaveUser(User persistedUser, User userFromUI) {
+		persistedUser.setAge(userFromUI.getAge());
+		persistedUser.setEmail(userFromUI.getEmail());
+		persistedUser.setName(userFromUI.getName());
+		persistedUser.setPassword(userFromUI.getPassword());
+		return this.userRepository.save(persistedUser);
+	}
+
 	public User findById(Long userId) {
 		User result = this.userRepository.findOne(userId);
 		if (result == null) {
@@ -52,22 +62,25 @@ public class UserService {
 	}
 
 	public User modifyUser(Long userId, User user) {
+		this.validateUser(user);
 		User persistedUser = this.userRepository.findOne(userId);
 		if (persistedUser == null) {
 			throw new UserNotFoundException();
 		}
-		// TODO validációk
-		persistedUser.setAge(user.getAge());
-		persistedUser.setEmail(user.getEmail());
-		persistedUser.setName(user.getName());
-		persistedUser.setPassword(user.getPassword());
-		return this.userRepository.save(persistedUser);
+		return this.doSaveUser(persistedUser, user);
 	}
 
 	public User saveUser(User user) {
 		user.setRole(RoleEnum.USER);
-		// TODO validációk
-		return this.userRepository.save(user);
+		this.validateUser(user);
+		User persistedUser = new User();
+		return this.doSaveUser(persistedUser, user);
+	}
+
+	private void validateUser(User user) {
+		if (StringUtils.isEmpty(user.getEmail()) || StringUtils.isEmpty(user.getName()) || user.getRole() == null) {
+			throw new UserBadRequestException();
+		}
 	}
 
 }
