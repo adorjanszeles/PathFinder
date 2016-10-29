@@ -11,4 +11,4 @@ notifications:
     - laszlo.kiss9203@gmail.com
     on_success: always
     on_failure: always
-script: mvn clean verify
+script: mvn clean verify test
