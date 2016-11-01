@@ -35,6 +35,7 @@ public class RouteService {
 	}
 
 	private Route doSaveRoute(Route persistedRoute, Route routeFromUI) {
+		persistedRoute.setLength(routeFromUI.getLength());
 		persistedRoute.setMaxHeight(routeFromUI.getMaxHeight());
 		persistedRoute.setMaxLength(routeFromUI.getMaxLength());
 		persistedRoute.setMaxWeight(routeFromUI.getMaxWeight());
@@ -84,8 +85,9 @@ public class RouteService {
 	}
 
 	private void validateRoute(Route route) {
-		if (route.getMaxHeight() < 0 || route.getMaxLength() < 0 || route.getMaxWeight() < 0 || route.getMaxWidth() < 0
-				|| route.getDestinationCity() == null || route.getStartingCity() == null) {
+		if (route.getLength() == null || route.getLength() < 0 || route.getMaxHeight() < 0 || route.getMaxLength() < 0
+				|| route.getMaxWeight() < 0 || route.getMaxWidth() < 0 || route.getDestinationCity() == null
+				|| route.getStartingCity() == null) {
 			throw new RouteBadRequestException();
 		}
 	}

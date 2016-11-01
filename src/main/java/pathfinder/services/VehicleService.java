@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import pathfinder.exceptions.badrequest.UserBadRequestException;
 import pathfinder.exceptions.badrequest.VehicleBadRequestException;
@@ -40,6 +41,7 @@ public class VehicleService {
 		if (owner == null) {
 			throw new UserBadRequestException();
 		}
+		persistedVehicle.setPlateNumber(vehicleFromUI.getPlateNumber());
 		persistedVehicle.setHeight(vehicleFromUI.getHeight());
 		persistedVehicle.setLength(vehicleFromUI.getLength());
 		persistedVehicle.setWeight(vehicleFromUI.getWeight());
@@ -90,8 +92,9 @@ public class VehicleService {
 		return this.doSaveVehicle(persistedVehicle, vehicle);
 	}
 
-	private void validateVehicle(Vehicle vehicle) {
-		if (vehicle.getHeight() == null || vehicle.getHeight().compareTo(0L) <= 0 || vehicle.getLength() == null
+	public void validateVehicle(Vehicle vehicle) {
+		if (StringUtils.isEmpty(vehicle.getPlateNumber()) || vehicle.getHeight() == null
+				|| vehicle.getHeight().compareTo(0L) <= 0 || vehicle.getLength() == null
 				|| vehicle.getLength().compareTo(0L) <= 0 || vehicle.getOwner() == null || vehicle.getWeight() == null
 				|| vehicle.getWeight().compareTo(0L) <= 0 || vehicle.getWidth() == null
 				|| vehicle.getWidth().compareTo(0L) <= 0) {

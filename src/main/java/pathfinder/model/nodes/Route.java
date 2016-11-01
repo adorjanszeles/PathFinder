@@ -21,6 +21,11 @@ public class Route {
 	private City destinationCity;
 
 	/**
+	 * Út hossza
+	 */
+	private Long length;
+
+	/**
 	 * Maximális magasság
 	 */
 	private Long maxHeight;
@@ -30,10 +35,20 @@ public class Route {
 	 */
 	private Long maxLength;
 
+	/**
+	 * Maximális súly
+	 */
+
 	private Long maxWeight;
 
+	/**
+	 * Maximális szélesség
+	 */
 	private Long maxWidth;
 
+	/**
+	 * Út neve
+	 */
 	private String name;
 
 	@GraphId
@@ -44,6 +59,10 @@ public class Route {
 
 	public City getDestinationCity() {
 		return this.destinationCity;
+	}
+
+	public Long getLength() {
+		return this.length;
 	}
 
 	public Long getMaxHeight() {
@@ -76,6 +95,10 @@ public class Route {
 
 	public void setDestinationCity(City destinationCity) {
 		this.destinationCity = destinationCity;
+	}
+
+	public void setLength(Long length) {
+		this.length = length;
 	}
 
 	public void setMaxHeight(Long maxHeight) {
