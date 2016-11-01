@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+    <f:viewAction action="#{routeDetailsBean.initializeRoute}" if="#{routeDetailsBean.isNew}"/>
+</f:metadata>
+<h:head>
+    <title>#{routeDetailsBean.isNew ? label.newRoute : label.modifyRoute}</title>
+</h:head>
+<h:body>
+    <ui:include src="../templates/menu.xhtml" />
+    <p:panelGrid>
+        <h3 align="center">#{routeDetailsBean.isNew ? label.newRoute : label.modifyRoute}</h3>
+        <h:form>
+            <h:panelGrid style="margin: 0 auto;" columns="2">
+                <p:outputLabel for="name">#{label.name}</p:outputLabel>
+                <p:inputText id="name" value="#{routeDetailsBean.selectedRoute.name}" required="true" />
+                <p:outputLabel for="length">#{label.routeLength}</p:outputLabel>
+                <p:inputText id="length" value="#{routeDetailsBean.selectedRoute.length}" required="true" />
+                <p:outputLabel for="maxHeight">#{label.routeMaxHeight}</p:outputLabel>
+                <p:inputText id="maxHeight" value="#{routeDetailsBean.selectedRoute.maxHeight}" required="true" />
+                <p:outputLabel for="maxLength">#{label.routeMaxLength}</p:outputLabel>
+                <p:inputText id="maxLength" value="#{routeDetailsBean.selectedRoute.maxLength}" required="true" />
+                <p:outputLabel for="maxWeight">#{label.routeMaxWeight}</p:outputLabel>
+                <p:inputText id="maxWeight" value="#{routeDetailsBean.selectedRoute.maxWeight}" required="true" />
+                <p:outputLabel for="maxWidth">#{label.routeMaxWidth}</p:outputLabel>
+                <p:inputText id="maxWidth" value="#{routeDetailsBean.selectedRoute.maxWidth}" required="true" />
+                <p:outputLabel for="startingCity">#{label.startingCity}</p:outputLabel>
+                <p:selectOneListbox id="startingCity" value="#{routeDetailsBean.selectedRoute.startingCity}" required="true">
+                    <f:selectItems value="#{routeDetailsBean.cityList}" var="startingCity" itemLabel="#{startingCity.name}" itemValue="#{startingCity}" />
+                </p:selectOneListbox>
+                <p:outputLabel for="destinationCity">#{label.destinationCity}</p:outputLabel>
+                <p:selectOneListbox id="destinationCity" value="#{routeDetailsBean.selectedRoute.destinationCity}" required="true">
+                    <f:selectItems value="#{routeDetailsBean.cityList}" var="destinationCity" itemLabel="#{destinationCity.name}" itemValue="#{destinationCity}" />
+                </p:selectOneListbox>
+            </h:panelGrid>
+            <h:panelGrid style="margin: 0 auto;" columns="1">
+                <p:commandButton value="#{routeDetailsBean.isNew ? label.save : label.modify}" action="#{routeDetailsBean.persistRoute}" update="growl" ajax="false"/>
+            </h:panelGrid>
+            <p:growl id="growl"/>
+        </h:form>
+    </p:panelGrid>
+</h:body>
+</html>

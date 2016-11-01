@@ -1,4 +1,4 @@
 jsf:
-  PROJECT_STAGE: Development
+  PROJECT_STAGE: Production
   primefaces:
     theme: overcast

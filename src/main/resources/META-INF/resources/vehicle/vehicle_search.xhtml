@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>#{label.searchVehicle}</title>
+</h:head>
+<h:body>
+    <ui:include src="../templates/menu.xhtml" />
+    <h3 align="center">#{label.searchVehicle}</h3>
+
+    <h:form>
+        <p:panel header="#{label.search}" style="margin-bottom:10px;">
+            <h:panelGrid columns="7" cellpadding="5">
+                <p:outputLabel for="plateNumber">#{label.plateNumber}</p:outputLabel>
+                <p:inputText id="plateNumber" value="#{vehicleSearchBean.searchVehicleEntity.plateNumber}"/>
+                <p:commandButton icon="ui-icon-check" value="#{label.search}" action="#{vehicleSearchBean.searchVehicle}" ajax="false"/>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+
+    <p:dataList id="routeListComponent" value="#{vehicleSearchBean.vehicleList}" var="vehicle" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+        <p:commandLink action="#{navigationBean.goToVehicleDetailsPage}" title="#{label.modify}" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
+            <f:setPropertyActionListener value="#{vehicle}" target="#{vehicleDetailsBean.selectedVehicle}" />
+            <f:setPropertyActionListener value="#{false}" target="#{vehicleDetailsBean.isNew}" />
+        </p:commandLink>
+        <p:commandLink update="growl" action="#{vehicleSearchBean.deleteVehicle}" title="#{label.delete}" styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px">
+            <f:setPropertyActionListener value="#{vehicle}" target="#{vehicleSearchBean.selectedVehicle}" />
+        </p:commandLink>
+        <h:outputText value="#{vehicle.plateNumber}" style="display:inline-block"/>
+        <h:outputText value="#{vehicle.owner.name}" style="display:inline-block"/>
+    </p:dataList>
+    <p:growl id="growl"/>
+</h:body>
+</html>

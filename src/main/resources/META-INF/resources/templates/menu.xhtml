@@ -10,28 +10,40 @@
 <ui:composition>
     <h:form>
         <p:menubar style="background: #DCDCDC !important;">
-            <p:submenu label="#{label.vehicles}" icon="ui-icon-clipboard">
-                <p:menuitem value="Új" ajax="false" icon="ui-icon-plus" />
-                <p:menuitem value="Keresés" ajax="false" icon="ui-icon-search" />
-            </p:submenu>
-
-            <p:submenu label="Felhasználók" icon="ui-icon-person">
-                <p:menuitem value="Új" ajax="false" icon="ui-icon-plus" />
-                <p:menuitem value="Keresés" ajax="false" icon="ui-icon-search" />
-            </p:submenu>
-
-            <p:submenu label="Feladatok" icon="ui-icon-document">
-                <p:menuitem value="Új" ajax="false" icon="ui-icon-plus" />
-                <p:menuitem value="Keresés" ajax="false" icon="ui-icon-search" />
+            <p:submenu label="#{label.paths}" icon="ui-icon-document">
+                <p:menuitem value="#{label.newPath}" ajax="false" icon="ui-icon-plus" />
+                <p:menuitem value="#{label.searchPaths}" ajax="false" icon="ui-icon-search" />
                 <p:separator/>
-                <p:menuitem value="Saját feladatok" ajax="false" icon="ui-icon-tag"/>
+                <p:menuitem value="#{label.favoritePaths}" ajax="false" icon="ui-icon-tag"/>
             </p:submenu>
+
+            <p:submenu label="#{label.vehicles}" icon="ui-icon-person">
+                <p:menuitem value="#{label.newVehicle}" action="#{navigationBean.goToVehicleDetailsPage}" ajax="false" icon="ui-icon-plus">
+                    <f:setPropertyActionListener value="#{true}" target="#{vehicleDetailsBean.isNew}" />
+                </p:menuitem>
+                <p:menuitem value="#{label.searchVehicle}" action="#{navigationBean.goToVehicleSearchPage}" ajax="false" icon="ui-icon-search" />
+            </p:submenu>
+
+            <p:submenu label="#{label.routes}" icon="ui-icon-clipboard">
+                <p:menuitem value="#{label.newRoute}" action="#{navigationBean.goToRouteDetailsPage}" ajax="false" icon="ui-icon-plus" >
+                    <f:setPropertyActionListener value="#{true}" target="#{routeDetailsBean.isNew}" />
+                </p:menuitem>
+                <p:menuitem value="#{label.searchRoutes}" action="#{navigationBean.goToRouteSearchPage}" ajax="false" icon="ui-icon-search" />
+            </p:submenu>
+
+            <p:submenu label="#{label.cities}" icon="ui-icon-clipboard">
+                <p:menuitem value="#{label.newCity}" action="#{navigationBean.goToCityDetailsPage}" ajax="false" icon="ui-icon-plus">
+                    <f:setPropertyActionListener value="#{true}" target="#{cityDetailsBean.isNew}" />
+                </p:menuitem>
+                <p:menuitem value="#{label.searchCities}" action="#{navigationBean.gotCitySearchPage}" ajax="false" icon="ui-icon-search" />
+            </p:submenu>
+
+            <p:menuitem value="#{label.userDetails}" action="#{navigationBean.goToUserDetailsPage}" ajax="false" icon="ui-icon-person"/>
 
             <f:facet name="options">
-                <p:commandButton value="Kijelentkezés" icon="ui-icon-extlink" update="growl" ajax="false"/>
+                <p:commandButton value="#{label.logout}" icon="ui-icon-extlink" update="growl" ajax="false"/>
             </f:facet>
         </p:menubar>
     </h:form>
-    <p:growl id="growl"/>
 </ui:composition>
 </html>

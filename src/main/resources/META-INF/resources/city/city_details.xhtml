@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+    <f:viewAction action="#{cityDetailsBean.initializeCity}" if="#{cityDetailsBean.isNew}"/>
+</f:metadata>
+<h:head>
+    <title>#{cityDetailsBean.isNew ? label.newCity : label.modifyCity}</title>
+</h:head>
+<h:body>
+    <ui:include src="../templates/menu.xhtml" />
+    <p:panelGrid>
+        <h3 align="center">#{cityDetailsBean.isNew ? label.newCity : label.modifyCity}</h3>
+        <h:form>
+            <h:panelGrid style="margin: 0 auto;" columns="2">
+                <p:outputLabel for="name">#{label.name}</p:outputLabel>
+                <p:inputText id="name" value="#{cityDetailsBean.selectedCity.name}" required="true" />
+                <p:outputLabel for="routesFromCity">#{label.routesFromCity}</p:outputLabel>
+                <p:selectManyMenu id="routesFromCity" value="#{cityDetailsBean.selectedCity.routesFromCity}">
+                    <f:selectItems value="#{cityDetailsBean.routesFromCity}" var="routeToCity" itemLabel="#{routeToCity.name}" itemValue="#{routeToCity}" />
+                </p:selectManyMenu>
+                <p:outputLabel for="routesToCity">#{label.routesToCity}</p:outputLabel>
+                <p:selectManyMenu id="routesToCity" value="#{cityDetailsBean.selectedCity.routesToCity}">
+                    <f:selectItems value="#{cityDetailsBean.routesToCity}" var="routeFromCity" itemLabel="#{routeFromCity.name}" itemValue="#{routeFromCity}" />
+                </p:selectManyMenu>
+            </h:panelGrid>
+            <h:panelGrid style="margin: 0 auto;" columns="1">
+                <p:commandButton value="#{cityDetailsBean.isNew ? label.save : label.modify}" action="#{cityDetailsBean.persistCity}" update="growl" ajax="false"/>
+            </h:panelGrid>
+            <p:growl id="growl"/>
+        </h:form>
+    </p:panelGrid>
+</h:body>
+</html>

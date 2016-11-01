@@ -4,9 +4,9 @@
 
 	<groupId>bme.aut</groupId>
 	<artifactId>pathfinder</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>pathfinder Maven Webapp</name>
+	<name>Pathfinder</name>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -16,9 +16,6 @@
 		<spring-data-releasetrain.version>Hopper-SR1
 		</spring-data-releasetrain.version>
 	</properties>
-
-	<!--parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId> 
-		<version>1.4.1.RELEASE</version> </parent -->
 
 	<parent>
 		<groupId>org.joinfaces</groupId>
@@ -53,22 +50,16 @@
 		<!-- JoinFaces -->
 		<dependency>
 			<groupId>org.joinfaces</groupId>
-			<!-- Change artifactId to jsf-myfaces-spring-boot-starter to use MyFaces 
-				instead of Mojarra -->
-			<!-- Change artifactId to jsf-jetty-spring-boot-starter to use Jetty servlet 
-				container -->
-			<!-- Change artifactId to jsf-jetty-myfaces-spring-boot-starter to use 
-				Jetty servlet container and MyFaces instead of Mojarra -->
-			<!-- Change artifactId to jsf-undertow-spring-boot-starter to use Undertow 
-				servlet container -->
-			<!-- Change artifactId to jsf-undertow-myfaces-spring-boot-starter to 
-				use Undertow servlet container and MyFaces instead of Mojarra -->
 			<artifactId>jsf-spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces.extensions</groupId>
 			<artifactId>all-themes</artifactId>
 			<version>1.0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 	</dependencies>
 

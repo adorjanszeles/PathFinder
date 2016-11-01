@@ -21,9 +21,10 @@ import pathfinder.services.CityService;
 import pathfinder.services.RouteService;
 import pathfinder.services.UserService;
 import pathfinder.services.VehicleService;
+import pathfinder.ui.configuration.SpringSecurityConfiguration;
 
 @Configuration
-@Import(PfNeo4jConfiguration.class)
+@Import(value = {PfNeo4jConfiguration.class, SpringSecurityConfiguration.class})
 @RequestMapping("/")
 public class PathfinderController extends WebMvcConfigurerAdapter {
 
