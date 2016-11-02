@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import pathfinder.exceptions.badrequest.CityBadRequestException;
 import pathfinder.exceptions.badrequest.RouteBadRequestException;
@@ -40,6 +41,7 @@ public class RouteService {
 		persistedRoute.setMaxLength(routeFromUI.getMaxLength());
 		persistedRoute.setMaxWeight(routeFromUI.getMaxWeight());
 		persistedRoute.setMaxWidth(routeFromUI.getMaxWidth());
+		persistedRoute.setName(routeFromUI.getName());
 		City startingCity = this.cityRepository.findOne(routeFromUI.getStartingCity().getCityId());
 		if (startingCity == null) {
 			throw new CityBadRequestException();
@@ -86,9 +88,9 @@ public class RouteService {
 	}
 
 	private void validateRoute(Route route) {
-		if (route.getLength() == null || route.getLength() < 0 || route.getMaxHeight() < 0 || route.getMaxLength() < 0
-				|| route.getMaxWeight() < 0 || route.getMaxWidth() < 0 || route.getDestinationCity() == null
-				|| route.getStartingCity() == null) {
+		if (StringUtils.isEmpty(route.getName()) || route.getLength() == null || route.getLength() < 0
+				|| route.getMaxHeight() < 0 || route.getMaxLength() < 0 || route.getMaxWeight() < 0
+				|| route.getMaxWidth() < 0 || route.getDestinationCity() == null || route.getStartingCity() == null) {
 			throw new RouteBadRequestException();
 		}
 	}
