@@ -20,7 +20,23 @@ public interface UserBean {
      * A bejelentkezett felhasználó adatainak módosítása.
      *
      * @param loggedInUser A bejelentkezett felhasználó módosított adatai
-     * @param confirmPassword
+     * @param confirmPassword A másodjára begépelt jelszó
      */
     void modifyUser(User loggedInUser, String confirmPassword);
+
+    /**
+     * Elment egy új felhasználót az adatbázisba
+     *
+     * @param newUser Az új felhasználó
+     * @param confirmPassword A másodjára begépelt jelszó
+     */
+    void saveUser(User newUser, String confirmPassword);
+
+    /**
+     * Visszaadja a felhasználót az azonosítója alapján.
+     *
+     * @param userId A felhasználó azonosítója
+     * @return A felhasználó entitás
+     */
+    User getUserById(Long userId);
 }

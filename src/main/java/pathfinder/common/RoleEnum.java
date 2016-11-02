@@ -18,4 +18,7 @@ public enum RoleEnum {
 	 */
 	ADMINISTRATOR;
 
+    public String getName() {
+        return this.name();
+    }
 }

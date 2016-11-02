@@ -47,4 +47,12 @@ public interface CityBean {
      * @param selectedCity A törlendő város
      */
     void deleteCity(City selectedCity);
+
+    /**
+     * Lekér egy várost az azonosítója alapján.
+     *
+     * @param cityId A város azonosítója
+     * @return A város példány
+     */
+    City getCityById(Long cityId);
 }

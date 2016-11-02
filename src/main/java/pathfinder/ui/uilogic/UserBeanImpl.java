@@ -46,6 +46,7 @@ public class UserBeanImpl extends AbstractBean implements UserBean {
                 throw new PasswordsNotMatchException();
             }
             userService.modifyUser(loggedInUser.getUserId(), loggedInUser);
+            showMessage(Messages.USER_MODIFICATION_SUCCESS, FacesMessage.SEVERITY_INFO);
         } catch (UserNotFoundException userNotFound) {
             showMessage(Messages.USER_NOT_FOUND, FacesMessage.SEVERITY_ERROR);
         } catch (PasswordsNotMatchException passwordsNotMatch) {
@@ -53,5 +54,33 @@ public class UserBeanImpl extends AbstractBean implements UserBean {
         } catch (Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }
+    }
+
+    @Override
+    public void saveUser(User newUser, String confirmPassword) {
+        try {
+            if(!newUser.getPassword().equals(confirmPassword)) {
+                throw new PasswordsNotMatchException();
+            }
+            userService.saveUser(newUser);
+            showMessage(Messages.USER_SAVE_SUCCESS, FacesMessage.SEVERITY_INFO);
+        } catch (UserNotFoundException userNotFound) {
+            showMessage(Messages.USER_NOT_FOUND, FacesMessage.SEVERITY_ERROR);
+        } catch (PasswordsNotMatchException passwordsNotMatch) {
+            showMessage(Messages.PASSWORDS_NOT_MATCH, FacesMessage.SEVERITY_ERROR);
+        } catch (Exception e) {
+            showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
+        }
+    }
+
+    @Override
+    public User getUserById(Long userId) {
+        User result = null;
+        try {
+            result = userService.findById(userId);
+        } catch (Exception e) {
+            showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
+        }
+        return result;
     }
 }

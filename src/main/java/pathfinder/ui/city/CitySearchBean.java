@@ -31,14 +31,13 @@ public class CitySearchBean {
     @PostConstruct
     public void postConstruct() {
         searchCityEntity = new City();
-        cityList = cityBean.searchCities(searchCityEntity);
     }
 
     /**
      * Város keresése
      */
     public String searchCity() {
-        cityBean.searchCities(searchCityEntity);
+        cityList = cityBean.searchCities(searchCityEntity);
         return FacesCommon.stayOnPage();
     }
 

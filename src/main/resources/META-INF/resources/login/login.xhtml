@@ -20,6 +20,9 @@
         <h:panelGrid style="margin: 0 auto;" columns="1">
             <p:commandButton id="submit" value="#{label.enter}" ajax="false"/>
         </h:panelGrid>
+        <h:panelGrid style="margin: 0 auto;" columns="1" rendered="${!empty param['error']}">
+            <p:outputLabel>#{messages.loginFailed}</p:outputLabel>
+        </h:panelGrid>
     </h:form>
 </h:body>
 </html>

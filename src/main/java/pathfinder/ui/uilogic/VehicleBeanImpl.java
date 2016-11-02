@@ -32,7 +32,7 @@ public class VehicleBeanImpl extends AbstractBean implements VehicleBean {
     public List<Vehicle> searchVehicle(Vehicle searchVehicleEntity) {
         List<Vehicle> result = new ArrayList<>();
         try {
-            if(searchVehicleEntity == null) {
+            if(searchVehicleEntity.getPlateNumber() == null) {
                 result.addAll(vehicleService.getAllVehicles());
             } else {
                 // TODO útak keresése paraméter alapján

@@ -32,11 +32,11 @@
                 <p:outputLabel for="maxWidth">#{label.routeMaxWidth}</p:outputLabel>
                 <p:inputText id="maxWidth" value="#{routeDetailsBean.selectedRoute.maxWidth}" required="true" />
                 <p:outputLabel for="startingCity">#{label.startingCity}</p:outputLabel>
-                <p:selectOneListbox id="startingCity" value="#{routeDetailsBean.selectedRoute.startingCity}" required="true">
+                <p:selectOneListbox id="startingCity" value="#{routeDetailsBean.selectedRoute.startingCity}" required="true" converter="#{cityConverter}">
                     <f:selectItems value="#{routeDetailsBean.cityList}" var="startingCity" itemLabel="#{startingCity.name}" itemValue="#{startingCity}" />
                 </p:selectOneListbox>
                 <p:outputLabel for="destinationCity">#{label.destinationCity}</p:outputLabel>
-                <p:selectOneListbox id="destinationCity" value="#{routeDetailsBean.selectedRoute.destinationCity}" required="true">
+                <p:selectOneListbox id="destinationCity" value="#{routeDetailsBean.selectedRoute.destinationCity}" required="true" converter="#{cityConverter}">
                     <f:selectItems value="#{routeDetailsBean.cityList}" var="destinationCity" itemLabel="#{destinationCity.name}" itemValue="#{destinationCity}" />
                 </p:selectOneListbox>
             </h:panelGrid>

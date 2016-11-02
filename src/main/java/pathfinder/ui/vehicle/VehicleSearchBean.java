@@ -31,7 +31,6 @@ public class VehicleSearchBean {
     @PostConstruct
     public void postConstruct() {
         searchVehicleEntity = new Vehicle();
-        this.searchVehicle();
     }
 
     /**

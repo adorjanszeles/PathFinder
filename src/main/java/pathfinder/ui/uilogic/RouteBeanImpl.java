@@ -61,7 +61,7 @@ public class RouteBeanImpl extends AbstractBean implements RouteBean {
     public List<Route> searchRoute(Route searchRouteEntity) {
         List<Route> result = new ArrayList<>();
         try {
-            if(searchRouteEntity == null) {
+            if(searchRouteEntity.getName() == null) {
                 result.addAll(routeService.getAllRoute());
             } else {
                 // TODO útak keresése paraméter alapján
@@ -77,6 +77,17 @@ public class RouteBeanImpl extends AbstractBean implements RouteBean {
         List<City> result = new ArrayList<>();
         try {
             result.addAll(cityService.getAllCities());
+        } catch(Exception e) {
+            showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
+        }
+        return result;
+    }
+
+    @Override
+    public Route getRouteById(Long routeId) {
+        Route result = null;
+        try {
+            result = routeService.getRouteWithCities(routeId);
         } catch(Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }

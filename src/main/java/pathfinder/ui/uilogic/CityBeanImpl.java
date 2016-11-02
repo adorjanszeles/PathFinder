@@ -59,7 +59,7 @@ public class CityBeanImpl extends AbstractBean implements CityBean {
     public List<City> searchCities(City searchCityEntity) {
         List<City> result = new ArrayList<>();
         try {
-            if(searchCityEntity == null) {
+            if(searchCityEntity.getName() == null || "".equals(searchCityEntity.getName())) {
                 result.addAll(cityService.getAllCities());
             } else {
                 // TODO város keresés paraméter alapján
@@ -80,6 +80,17 @@ public class CityBeanImpl extends AbstractBean implements CityBean {
         } catch (Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }
+    }
+
+    @Override
+    public City getCityById(Long cityId) {
+        City result = null;
+        try {
+            result = cityService.findById(cityId);
+        } catch (Exception e) {
+            showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
+        }
+        return result;
     }
 
     private List<Route> getRoutes() {

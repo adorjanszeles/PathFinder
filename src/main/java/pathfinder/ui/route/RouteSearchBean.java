@@ -31,7 +31,6 @@ public class RouteSearchBean {
     @PostConstruct
     public void postConstruct() {
         searchRouteEntity = new Route();
-        this.searchRoute();
     }
 
     /**

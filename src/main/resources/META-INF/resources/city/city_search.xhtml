@@ -7,6 +7,9 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <f:event type="preRenderView" listener="#{citySearchBean.searchCity}" />
+</f:view>
 <h:head>
     <title>#{label.searchCities}</title>
 </h:head>

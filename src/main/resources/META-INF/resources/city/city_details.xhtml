@@ -22,11 +22,11 @@
                 <p:outputLabel for="name">#{label.name}</p:outputLabel>
                 <p:inputText id="name" value="#{cityDetailsBean.selectedCity.name}" required="true" />
                 <p:outputLabel for="routesFromCity">#{label.routesFromCity}</p:outputLabel>
-                <p:selectManyMenu id="routesFromCity" value="#{cityDetailsBean.selectedCity.routesFromCity}">
+                <p:selectManyMenu id="routesFromCity" value="#{cityDetailsBean.selectedCity.routesFromCity}" converter="#{routeConverter}">
                     <f:selectItems value="#{cityDetailsBean.routesFromCity}" var="routeToCity" itemLabel="#{routeToCity.name}" itemValue="#{routeToCity}" />
                 </p:selectManyMenu>
                 <p:outputLabel for="routesToCity">#{label.routesToCity}</p:outputLabel>
-                <p:selectManyMenu id="routesToCity" value="#{cityDetailsBean.selectedCity.routesToCity}">
+                <p:selectManyMenu id="routesToCity" value="#{cityDetailsBean.selectedCity.routesToCity}" converter="#{routeConverter}">
                     <f:selectItems value="#{cityDetailsBean.routesToCity}" var="routeFromCity" itemLabel="#{routeFromCity.name}" itemValue="#{routeFromCity}" />
                 </p:selectManyMenu>
             </h:panelGrid>

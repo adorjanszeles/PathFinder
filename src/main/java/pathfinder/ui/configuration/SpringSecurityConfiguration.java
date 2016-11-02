@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 /**
  * A spring boot security konfigurációs állománya.
- * 
+ *
  * @author Széles Adorján
  * Date: 2016. 11. 01.
  */
@@ -25,26 +25,30 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http
-                .userDetailsService(userDetailsService())
-                .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login/login.jsf").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login/login.jsf")
-                .permitAll()
-                .failureUrl("/login/login.jsf?error=true")
-                .defaultSuccessUrl("/route/route_search.jsf")
-                .and()
-                .logout()
-                .logoutSuccessUrl("/login/login.jsf");
+            .userDetailsService(this.userDetailsService())
+            .authorizeRequests()
+            .antMatchers("/login/login.jsf").permitAll()
+            .antMatchers("/path/*.jsf").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+            .antMatchers("/user/user_details.jsf").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+            .antMatchers("/templates/*.jsf").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+            .antMatchers("/city/*.jsf").access("hasRole('ROLE_ADMIN')")
+            .antMatchers("/route/*.jsf").access("hasRole('ROLE_ADMIN')")
+            .antMatchers("/vehicle/*.jsf").access("hasRole('ROLE_ADMIN')")
+            .antMatchers("/user/registration.jsf").access("hasRole('ROLE_ADMIN')")
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginPage("/login/login.jsf")
+            .permitAll()
+            .failureUrl("/login/login.jsf?error=true")
+            .defaultSuccessUrl("/user/user_details.jsf");
     }
 
     @Override
     protected UserDetailsService userDetailsService() {
-        UserDetails user1 = new User("persapiens", "123", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN"));
-        UserDetails user2 = new User("nyilmaz", "qwe", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
+        // TODO dbből kell lekérni a usereket...
+        UserDetails user1 = new User("admin", "admin", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN"));
+        UserDetails user2 = new User("user", "user", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
         return new InMemoryUserDetailsManager(Arrays.asList(user1, user2));
     }
 

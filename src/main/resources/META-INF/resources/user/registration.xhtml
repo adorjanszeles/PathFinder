@@ -2,11 +2,40 @@
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>#{label.registration}</title>
+</h:head>
+<h:body>
+    <ui:include src="../templates/menu.xhtml" />
+    <p:panelGrid>
+        <h3 align="center">#{label.registration}</h3>
+        <h:form>
+            <h:panelGrid style="margin: 0 auto;" columns="2">
+                <p:outputLabel for="name">#{label.name}</p:outputLabel>
+                <p:inputText id="name" value="#{registrationBean.newUser.name}" required="true" />
+                <p:outputLabel for="age">#{label.age}</p:outputLabel>
+                <p:inputText id="age" value="#{registrationBean.newUser.age}" required="true" />
+                <p:outputLabel for="email">#{label.email}</p:outputLabel>
+                <p:inputText id="email" value="#{registrationBean.newUser.email}" required="true" />
+                <p:outputLabel for="passowrd">#{label.password}</p:outputLabel>
+                <p:password id="passowrd" value="#{registrationBean.newUser.password}" required="true" />
+                <p:outputLabel for="passowrdagain">#{label.passwordAgain}</p:outputLabel>
+                <p:password id="passowrdagain" value="#{registrationBean.confirmPassword}" required="true" />
+                <p:outputLabel for="role">#{label.role}</p:outputLabel>
+                <p:selectOneListbox id="role" value="#{registrationBean.newUser.role}" required="true">
+                    <f:selectItems value="#{registrationBean.roles}" var="role" itemLabel="#{role.name}" itemValue="#{role}" />
+                </p:selectOneListbox>
+            </h:panelGrid>
+            <h:panelGrid style="margin: 0 auto;" columns="1">
+                <p:commandButton value="#{label.saveUser}" action="#{registrationBean.saveUser}" update="growl" ajax="false"/>
+            </h:panelGrid>
+            <p:growl id="growl"/>
+        </h:form>
+    </p:panelGrid>
+</h:body>
 </html>

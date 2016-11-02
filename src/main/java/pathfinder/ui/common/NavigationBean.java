@@ -1,5 +1,7 @@
 package pathfinder.ui.common;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
@@ -46,6 +48,16 @@ public class NavigationBean implements Serializable {
 
     public String goToUserDetailsPage() {
         return FacesCommon.redirectToJSFPage("/user/user_details");
+    }
+
+    public String goToUserRegistrationPage() {
+        return FacesCommon.redirectToJSFPage("/user/registration");
+    }
+
+    public String logout() {
+        // Töröljük a session-t, majd átirányítjuk a felhasználót a login oldalra
+        SecurityContextHolder.clearContext();
+        return FacesCommon.redirectToJSFPage("/login/login");
     }
 
 }

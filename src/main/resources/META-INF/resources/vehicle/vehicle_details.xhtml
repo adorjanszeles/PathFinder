@@ -30,7 +30,7 @@
                 <p:outputLabel for="vehicleWidth">#{label.vehicleWidth}</p:outputLabel>
                 <p:inputText id="vehicleWidth" value="#{vehicleDetailsBean.selectedVehicle.width}" required="true" />
                 <p:outputLabel for="vehicleOwner">#{label.vehicleOwner}</p:outputLabel>
-                <p:selectOneListbox id="vehicleOwner" value="#{vehicleDetailsBean.selectedVehicle.owner}" required="true">
+                <p:selectOneListbox id="vehicleOwner" value="#{vehicleDetailsBean.selectedVehicle.owner}" required="true" converter="#{userConverter}">
                     <f:selectItems value="#{vehicleDetailsBean.ownerList}" var="owner" itemLabel="#{owner.name}" itemValue="#{owner}" />
                 </p:selectOneListbox>
             </h:panelGrid>

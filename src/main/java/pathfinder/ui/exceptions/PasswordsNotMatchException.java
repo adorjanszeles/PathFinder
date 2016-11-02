@@ -6,5 +6,4 @@ package pathfinder.ui.exceptions;
  * @author Széles Adorján
  * Date: 2016. 11. 01.
  */
-public class PasswordsNotMatchException extends Exception {
-}
+public class PasswordsNotMatchException extends Exception {}

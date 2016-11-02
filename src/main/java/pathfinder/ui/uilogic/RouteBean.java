@@ -40,4 +40,12 @@ public interface RouteBean {
      * @return Az összes város egy listában
      */
     List<City> getAllCity();
+
+    /**
+     * Lekér egy várost az azonosítója alapján.
+     *
+     * @param routeId Az út azonosítója
+     * @return Az út példány
+     */
+    Route getRouteById(Long routeId);
 }
