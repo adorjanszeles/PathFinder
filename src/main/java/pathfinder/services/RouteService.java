@@ -49,6 +49,7 @@ public class RouteService {
 		if (destinationCity == null) {
 			throw new CityBadRequestException();
 		}
+		persistedRoute.setDestinationCity(destinationCity);
 		return this.routeRepository.save(persistedRoute);
 	}
 

@@ -14,22 +14,27 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import pathfinder.config.PfNeo4jConfiguration;
 import pathfinder.model.nodes.City;
+import pathfinder.model.nodes.Path;
 import pathfinder.model.nodes.Route;
 import pathfinder.model.nodes.User;
 import pathfinder.model.nodes.Vehicle;
 import pathfinder.services.CityService;
+import pathfinder.services.PathFinderService;
 import pathfinder.services.RouteService;
 import pathfinder.services.UserService;
 import pathfinder.services.VehicleService;
 import pathfinder.ui.configuration.SpringSecurityConfiguration;
 
 @Configuration
-@Import(value = {PfNeo4jConfiguration.class, SpringSecurityConfiguration.class})
+@Import(value = { PfNeo4jConfiguration.class, SpringSecurityConfiguration.class })
 @RequestMapping("/")
 public class PathfinderController extends WebMvcConfigurerAdapter {
 
 	@Autowired
 	private CityService cityService;
+
+	@Autowired
+	private PathFinderService pathfinderService;
 
 	@Autowired
 	private RouteService routeService;
@@ -62,6 +67,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 
 	/**
 	 * Felhasználó törlése. TODO Csak admin joggal!
+	 * 
 	 * @param user
 	 */
 	@RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE)
@@ -98,6 +104,17 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	@RequestMapping(value = "/city/{cityId}", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody City getCityWithRoutes(@PathVariable("cityId") Long cityId) {
 		return this.cityService.getCityWithRoutes(cityId);
+	}
+
+	/**
+	 * Útvonal keresése
+	 * 
+	 * @param path
+	 * @return
+	 */
+	@RequestMapping(value = "/path", method = RequestMethod.POST)
+	public @ResponseBody Path getPath(@RequestBody Path path) {
+		return this.pathfinderService.getPath(path.getStart(), path.getEnd(), path.getVehicle());
 	}
 
 	/**
@@ -164,7 +181,8 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	}
 
 	/**
-	 * 1 User-hez tartozó járművek lekérdezése TODO: csak saját járművek vagy admin jog
+	 * 1 User-hez tartozó járművek lekérdezése TODO: csak saját járművek vagy
+	 * admin jog
 	 * 
 	 * @param vehicle
 	 */
@@ -213,8 +231,8 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	}
 
 	/**
-	 * Jármű módosítása TODO validáció: vagy a bejelentkezett felhasználó az owner, vagy
-	 * adminhoz tartozik!
+	 * Jármű módosítása TODO validáció: vagy a bejelentkezett felhasználó az
+	 * owner, vagy adminhoz tartozik!
 	 * 
 	 * @param vehicle
 	 * @return
@@ -265,8 +283,8 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	}
 
 	/**
-	 * Új jármű felvétele TODO a tulajdonos felületről jön, vagy a bejelentkezett
-	 * felhasználó lesz?
+	 * Új jármű felvétele TODO a tulajdonos felületről jön, vagy a
+	 * bejelentkezett felhasználó lesz?
 	 * 
 	 * @param vehicle
 	 */
