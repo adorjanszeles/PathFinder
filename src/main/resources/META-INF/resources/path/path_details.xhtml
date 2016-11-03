@@ -8,32 +8,33 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <f:metadata>
-    <f:viewAction action="#{pathDetailsBean.initializeView}" if="#{pathDetailsBean.isNew}"/>
+    <f:viewAction action="#{pathGenerationBean.initializeView}" if="#{pathGenerationBean.isNew}"/>
 </f:metadata>
 <h:head>
-    <title>#{pathDetailsBean.isNew ? label.newPath : label.examinePath}</title>
+    <title>#{pathGenerationBean.isNew ? label.newPath : label.examinePath}</title>
 </h:head>
 <h:body>
     <ui:include src="../templates/menu.xhtml" />
     <p:panelGrid>
-        <h3 align="center">#{pathDetailsBean.isNew ? label.newPath : label.examinePath}</h3>
+        <h3 align="center">#{pathGenerationBean.isNew ? label.newPath : label.examinePath}</h3>
         <h:form>
             <h:panelGrid style="margin: 0 auto;" columns="2">
-                <p:outputLabel for="fromCity">#{label.startingCity}</p:outputLabel>
-                <p:inputText id="fromCity" value="#{pathDetailsBean.selectedPath.start.name}" readonly="true"/>
-                <p:outputLabel for="toCity">#{label.destinationCity}</p:outputLabel>
-                <p:inputText id="toCity" value="#{pathDetailsBean.selectedPath.end.name}" readonly="true"/>
-                <p:outputLabel for="vehicle">#{label.vehicle}</p:outputLabel>
-                <p:inputText id="vehicle" value="#{pathDetailsBean.selectedPath.vehicle.plateNumber}" readonly="true"/>
-                <p:outputLabel for="sumLength">#{label.sumLength}</p:outputLabel>
-                <p:inputText id="sumLength" value="#{pathDetailsBean.selectedPath.sumLength}" readonly="true"/>
-                <p:outputLabel for="path">#{label.generatedPath}</p:outputLabel>
-                <p:inputTextarea id="path" rows="10" cols="40" value="#{pathDetailsBean.createPathString}" readonly="true"/>
+                <h:panelGrid style="margin: 0 auto;" columns="2">
+                    <p:outputLabel for="fromCity">#{label.startingCity}</p:outputLabel>
+                    <p:inputText id="fromCity" value="#{pathGenerationBean.selectedPath.start.name}" readonly="true"/>
+                    <p:outputLabel for="toCity">#{label.destinationCity}</p:outputLabel>
+                    <p:inputText id="toCity" value="#{pathGenerationBean.selectedPath.end.name}" readonly="true"/>
+                    <p:outputLabel for="vehicle">#{label.vehicle}</p:outputLabel>
+                    <p:inputText id="vehicle" value="#{pathGenerationBean.selectedPath.vehicle.plateNumber}" readonly="true"/>
+                    <p:outputLabel for="sumLength">#{label.sumLength}</p:outputLabel>
+                    <p:inputText id="sumLength" value="#{pathGenerationBean.selectedPath.sumLength}" readonly="true"/>
+                </h:panelGrid>
+                <h:panelGrid style="margin: 0 auto;" columns="2">
+                    <p:outputLabel for="path">#{label.generatedPath}</p:outputLabel>
+                    <p:inputTextarea id="path" rows="10" cols="40" value="#{pathGenerationBean.createPathString}" readonly="true"/>
+                </h:panelGrid>
             </h:panelGrid>
-            <h:panelGrid style="margin: 0 auto;" columns="1" rendered="#{!pathDetailsBean.isNew}">
-                <p:commandButton value="#{label.save}" action="#{pathDetailsBean.savePath}" update="growl" ajax="false"/>
-            </h:panelGrid>
-            <h:panelGrid style="margin: 0 auto;" columns="1" rendered="#{pathDetailsBean.isNew}">
+            <h:panelGrid style="margin: 0 auto;" columns="1">
                 <p:commandButton value="#{label.newPath}" type="button" onclick="PF('newPath').show();"/>
             </h:panelGrid>
 
@@ -41,20 +42,20 @@
                 <h:form>
                     <h:panelGrid style="margin: 0 auto;" columns="2">
                         <p:outputLabel for="startingCity">#{label.startingCity}</p:outputLabel>
-                        <p:selectOneListbox id="startingCity" value="#{pathDetailsBean.fromCity}" required="true" converter="#{cityConverter}">
-                            <f:selectItems value="#{pathDetailsBean.allCities}" var="startingCity" itemLabel="#{startingCity.name}" itemValue="#{startingCity}" />
+                        <p:selectOneListbox id="startingCity" value="#{pathGenerationBean.fromCity}" required="true" converter="#{cityConverter}">
+                            <f:selectItems value="#{pathGenerationBean.allCities}" var="startingCity" itemLabel="#{startingCity.name}" itemValue="#{startingCity}" />
                         </p:selectOneListbox>
                         <p:outputLabel for="destinationCity">#{label.destinationCity}</p:outputLabel>
-                        <p:selectOneListbox id="destinationCity" value="#{pathDetailsBean.toCity}" required="true" converter="#{cityConverter}">
-                            <f:selectItems value="#{pathDetailsBean.allCities}" var="destinationCity" itemLabel="#{destinationCity.name}" itemValue="#{destinationCity}" />
+                        <p:selectOneListbox id="destinationCity" value="#{pathGenerationBean.toCity}" required="true" converter="#{cityConverter}">
+                            <f:selectItems value="#{pathGenerationBean.allCities}" var="destinationCity" itemLabel="#{destinationCity.name}" itemValue="#{destinationCity}" />
                         </p:selectOneListbox>
                         <p:outputLabel for="vehicleToGenerate">#{label.vehicle}</p:outputLabel>
-                        <p:selectOneListbox id="vehicleToGenerate" value="#{pathDetailsBean.selectedVehicle}" required="true" converter="#{vehicleConverter}">
-                            <f:selectItems value="#{pathDetailsBean.allVehicles}" var="vehicle" itemLabel="#{vehicle.plateNumber}" itemValue="#{vehicle}" />
+                        <p:selectOneListbox id="vehicleToGenerate" value="#{pathGenerationBean.selectedVehicle}" required="true" converter="#{vehicleConverter}">
+                            <f:selectItems value="#{pathGenerationBean.allVehicles}" var="vehicle" itemLabel="#{vehicle.plateNumber}" itemValue="#{vehicle}" />
                         </p:selectOneListbox>
                     </h:panelGrid>
                     <h:panelGrid style="margin: 0 auto;" columns="1">
-                        <p:commandButton value="#{label.generate}" action="#{pathDetailsBean.generatePath}" update="growl" ajax="false"/>
+                        <p:commandButton value="#{label.generate}" action="#{pathGenerationBean.generatePath}" update="growl" ajax="false"/>
                     </h:panelGrid>
                 </h:form>
             </p:dialog>

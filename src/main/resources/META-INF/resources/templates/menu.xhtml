@@ -10,13 +10,12 @@
 <ui:composition>
     <h:form>
         <p:menubar style="background: #DCDCDC !important;">
-            <p:submenu label="#{label.paths}" icon="ui-icon-document">
-                <p:menuitem value="#{label.newPath}" action="#{navigationBean.goToPathDetailsPage}" ajax="false" icon="ui-icon-plus">
-                    <f:setPropertyActionListener value="#{true}" target="#{pathDetailsBean.isNew}" />
-                </p:menuitem>
-                <p:menuitem value="#{label.searchPaths}" action="#{navigationBean.goToPathSearchPage}" ajax="false" icon="ui-icon-search" />
-                <p:separator/>
-                <p:menuitem value="#{label.favoritePaths}" action="#{navigationBean.goToPathFavoritePage}" ajax="false" icon="ui-icon-tag"/>
+            <p:submenu label="#{label.users}" icon="ui-icon-clipboard">
+                <p:menuitem value="#{label.userDetails}" action="#{navigationBean.goToUserDetailsPage}" ajax="false" icon="ui-icon-person"/>
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <p:menuitem value="#{label.registration}" action="#{navigationBean.goToUserRegistrationPage}" ajax="false" icon="ui-icon-person"/>
+                    <p:menuitem value="#{label.searchUser}" action="#{navigationBean.goToUserSearchPage}" ajax="false" icon="ui-icon-person"/>
+                </sec:authorize>
             </p:submenu>
 
             <sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -42,12 +41,9 @@
                 </p:submenu>
             </sec:authorize>
 
-            <p:submenu label="#{label.users}" icon="ui-icon-clipboard">
-                <p:menuitem value="#{label.userDetails}" action="#{navigationBean.goToUserDetailsPage}" ajax="false" icon="ui-icon-person"/>
-                <sec:authorize access="hasRole('ROLE_ADMIN')">
-                    <p:menuitem value="#{label.registration}" action="#{navigationBean.goToUserRegistrationPage}" ajax="false" icon="ui-icon-person"/>
-                </sec:authorize>
-            </p:submenu>
+            <p:menuitem value="#{label.newPath}" action="#{navigationBean.goToPathDetailsPage}" ajax="false" icon="ui-icon-plus">
+                <f:setPropertyActionListener value="#{true}" target="#{pathGenerationBean.isNew}" />
+            </p:menuitem>
 
             <f:facet name="options">
                 <p:commandButton value="#{label.logout}" action="#{navigationBean.logout}" icon="ui-icon-extlink" ajax="false"/>

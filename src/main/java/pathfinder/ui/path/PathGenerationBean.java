@@ -4,7 +4,6 @@ import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Path;
 import pathfinder.model.nodes.Route;
 import pathfinder.model.nodes.Vehicle;
-import pathfinder.ui.common.FacesCommon;
 import pathfinder.ui.common.NavigationBean;
 import pathfinder.ui.uilogic.CityBean;
 import pathfinder.ui.uilogic.PathBean;
@@ -21,7 +20,7 @@ import java.util.List;
  */
 @ManagedBean
 @SessionScoped
-public class PathDetailsBean {
+public class PathGenerationBean {
     @ManagedProperty(value = "#{pathBeanImpl}")
     private PathBean pathBean;
     @ManagedProperty(value = "#{cityBeanImpl}")
@@ -43,16 +42,9 @@ public class PathDetailsBean {
      * Inicializálja a view listáit.
      */
     public void initializeView() {
+        selectedPath = new Path();
         allCities = cityBean.getAllCity();
         allVehicles = vehicleBean.getAllVehicle();
-    }
-
-    /**
-     * Elmenti a generált útvonalat.
-     */
-    public String savePath() {
-        pathBean.savePath(selectedPath);
-        return FacesCommon.stayOnPage();
     }
 
     /**
@@ -60,16 +52,13 @@ public class PathDetailsBean {
      */
     public String generatePath() {
         selectedPath = pathBean.generatePath(fromCity, toCity, selectedVehicle);
-        if(selectedPath == null) {
-            return FacesCommon.stayOnPage();
-        }
         isNew = false;
         return navigationBean.goToPathDetailsPage();
     }
 
     public String getCreatePathString() {
         createPathString = "";
-        if(selectedPath != null) {
+        if(selectedPath != null && selectedPath.getRoutes() != null) {
             StringBuilder pathBuilder = new StringBuilder();
             int destinationCounter = 1;
             for (Route routeElement : selectedPath.getRoutes()) {

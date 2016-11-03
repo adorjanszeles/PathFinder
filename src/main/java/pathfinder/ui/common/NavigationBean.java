@@ -72,10 +72,10 @@ public class NavigationBean {
     }
 
     /**
-     * A generált útvonalak keresése oldalra navigál.
+     * A felhasználók keresése oldalra navigál.
      */
-    public String goToPathSearchPage() {
-        return FacesCommon.redirectToJSFPage("/path/path_search");
+    public String goToUserSearchPage() {
+        return FacesCommon.redirectToJSFPage("/user/user_search");
     }
 
     /**
@@ -83,13 +83,6 @@ public class NavigationBean {
      */
     public String goToPathDetailsPage() {
         return FacesCommon.redirectToJSFPage("/path/path_details");
-    }
-
-    /**
-     * A kedvenc generált útvonalak listázása képernyőre navigál.
-     */
-    public String goToPathFavoritePage() {
-        return FacesCommon.redirectToJSFPage("/path/favorite_paths");
     }
 
     /**
