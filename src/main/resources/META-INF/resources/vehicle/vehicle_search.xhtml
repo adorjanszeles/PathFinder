@@ -36,7 +36,6 @@
             <f:setPropertyActionListener value="#{vehicle}" target="#{vehicleSearchBean.selectedVehicle}" />
         </p:commandLink>
         <h:outputText value="#{vehicle.plateNumber}" style="display:inline-block"/>
-        <h:outputText value="#{vehicle.owner.name}" style="display:inline-block"/>
     </p:dataList>
     <p:growl id="growl"/>
 </h:body>

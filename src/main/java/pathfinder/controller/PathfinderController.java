@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import pathfinder.config.PfNeo4jConfiguration;
+import pathfinder.exceptions.notfound.NoPathForThisParameters;
 import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Path;
 import pathfinder.model.nodes.Route;
@@ -113,7 +114,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@RequestMapping(value = "/path", method = RequestMethod.POST)
-	public @ResponseBody Path getPath(@RequestBody Path path) {
+	public @ResponseBody Path getPath(@RequestBody Path path) throws NoPathForThisParameters {
 		return this.pathfinderService.getPath(path.getStart(), path.getEnd(), path.getVehicle());
 	}
 

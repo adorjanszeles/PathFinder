@@ -2,11 +2,27 @@
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <f:event type="preRenderView" listener="#{pathFavoriteBean.getPaths}" />
+</f:view>
+<h:head>
+    <title>#{label.favoritePaths}</title>
+</h:head>
+<h:body>
+    <ui:include src="../templates/menu.xhtml" />
+    <h3 align="center">#{label.favoritePaths}</h3>
+    <p:dataList id="pathListComponent" value="#{pathFavoriteBean.pathList}" var="path" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+        <p:commandLink action="#{navigationBean.goToPathDetailsPage}" title="#{label.examine}" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
+            <f:setPropertyActionListener value="#{path}" target="#{pathDetailsBean.selectedPath}" />
+            <f:setPropertyActionListener value="#{false}" target="#{pathDetailsBean.isNew}" />
+        </p:commandLink>
+        <h:outputText value="#{path.start.name} --> #{path.end.name}: #{path.vehicle.plateNumber}" style="display:inline-block"/>
+    </p:dataList>
+    <p:growl id="growl"/>
+</h:body>
 </html>

@@ -3,9 +3,7 @@ package pathfinder.ui.uilogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import pathfinder.exceptions.notfound.CityNotFoundException;
 import pathfinder.model.nodes.City;
-import pathfinder.model.nodes.Route;
 import pathfinder.services.CityService;
-import pathfinder.services.RouteService;
 import pathfinder.ui.common.Messages;
 
 import javax.faces.application.FacesMessage;
@@ -25,18 +23,6 @@ import java.util.List;
 public class CityBeanImpl extends AbstractBean implements CityBean {
     @Autowired
     private CityService cityService;
-    @Autowired
-    private RouteService routeService;
-
-    @Override
-    public List<Route> getRoutesToCity() {
-        return getRoutes();
-    }
-
-    @Override
-    public List<Route> getRoutesFromCity() {
-        return getRoutes();
-    }
 
     @Override
     public void persistCity(City selectedCity) {
@@ -93,10 +79,11 @@ public class CityBeanImpl extends AbstractBean implements CityBean {
         return result;
     }
 
-    private List<Route> getRoutes() {
-        List<Route> result = new ArrayList<>();
+    @Override
+    public List<City> getAllCity() {
+        List<City> result = new ArrayList<>();
         try {
-            result.addAll(routeService.getAllRoute());
+            result.addAll(cityService.getAllCities());
         } catch(Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }

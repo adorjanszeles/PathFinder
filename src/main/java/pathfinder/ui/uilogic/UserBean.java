@@ -2,6 +2,8 @@ package pathfinder.ui.uilogic;
 
 import pathfinder.model.nodes.User;
 
+import java.util.List;
+
 /**
  * A felhasználó adatainak módosításáért felelős üzleti logika interfésze.
  *
@@ -39,4 +41,12 @@ public interface UserBean {
      * @return A felhasználó entitás
      */
     User getUserById(Long userId);
+
+    /**
+     * Lekéri a szervertől a lehetséges tulajdonosokat.
+     *
+     * @return Egy user lista
+     */
+    List<User> getOwners();
+
 }

@@ -1,19 +1,18 @@
 package pathfinder.services;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
 import pathfinder.common.RoleEnum;
 import pathfinder.exceptions.badrequest.UserBadRequestException;
 import pathfinder.exceptions.notfound.UserNotFoundException;
 import pathfinder.model.nodes.User;
 import pathfinder.model.repositories.UserRepository;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * {@link User} node kezelésére szolgáló Service osztály.
@@ -83,4 +82,12 @@ public class UserService {
 		}
 	}
 
+	public User findByUserName(String userName) {
+		// TODO itt kellene a db-ből lekérni a user-t. Meg valahogy bele kéne tenni egy init scriptel az admin-t.
+		User user = new User();
+		user.setName("a");
+		user.setPassword("a");
+		user.setRole(RoleEnum.ADMINISTRATOR);
+		return user;
+	}
 }

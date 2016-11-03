@@ -2,9 +2,7 @@ package pathfinder.ui.uilogic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import pathfinder.exceptions.notfound.RouteNotFoundException;
-import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Route;
-import pathfinder.services.CityService;
 import pathfinder.services.RouteService;
 import pathfinder.ui.common.Messages;
 
@@ -25,8 +23,6 @@ import java.util.List;
 public class RouteBeanImpl extends AbstractBean implements RouteBean {
     @Autowired
     private RouteService routeService;
-    @Autowired
-    private CityService cityService;
 
     @Override
     public void deleteRoute(Route route) {
@@ -73,10 +69,10 @@ public class RouteBeanImpl extends AbstractBean implements RouteBean {
     }
 
     @Override
-    public List<City> getAllCity() {
-        List<City> result = new ArrayList<>();
+    public Route getRouteById(Long routeId) {
+        Route result = null;
         try {
-            result.addAll(cityService.getAllCities());
+            result = routeService.getRouteWithCities(routeId);
         } catch(Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }
@@ -84,10 +80,19 @@ public class RouteBeanImpl extends AbstractBean implements RouteBean {
     }
 
     @Override
-    public Route getRouteById(Long routeId) {
-        Route result = null;
+    public List<Route> getRoutesToCity() {
+        return getRoutes();
+    }
+
+    @Override
+    public List<Route> getRoutesFromCity() {
+        return getRoutes();
+    }
+
+    private List<Route> getRoutes() {
+        List<Route> result = new ArrayList<>();
         try {
-            result = routeService.getRouteWithCities(routeId);
+            result.addAll(routeService.getAllRoute());
         } catch(Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }

@@ -27,7 +27,7 @@
         </p:panel>
     </h:form>
 
-    <p:dataList id="routeListComponent" value="#{citySearchBean.cityList}" var="city" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+    <p:dataList id="cityListComponent" value="#{citySearchBean.cityList}" var="city" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
         <p:commandLink action="#{navigationBean.goToCityDetailsPage}" title="#{label.modify}" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
             <f:setPropertyActionListener value="#{city}" target="#{cityDetailsBean.selectedCity}" />
             <f:setPropertyActionListener value="#{false}" target="#{cityDetailsBean.isNew}" />

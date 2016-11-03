@@ -11,10 +11,12 @@
     <h:form>
         <p:menubar style="background: #DCDCDC !important;">
             <p:submenu label="#{label.paths}" icon="ui-icon-document">
-                <p:menuitem value="#{label.newPath}" ajax="false" icon="ui-icon-plus" />
-                <p:menuitem value="#{label.searchPaths}" ajax="false" icon="ui-icon-search" />
+                <p:menuitem value="#{label.newPath}" action="#{navigationBean.goToPathDetailsPage}" ajax="false" icon="ui-icon-plus">
+                    <f:setPropertyActionListener value="#{true}" target="#{pathDetailsBean.isNew}" />
+                </p:menuitem>
+                <p:menuitem value="#{label.searchPaths}" action="#{navigationBean.goToPathSearchPage}" ajax="false" icon="ui-icon-search" />
                 <p:separator/>
-                <p:menuitem value="#{label.favoritePaths}" ajax="false" icon="ui-icon-tag"/>
+                <p:menuitem value="#{label.favoritePaths}" action="#{navigationBean.goToPathFavoritePage}" ajax="false" icon="ui-icon-tag"/>
             </p:submenu>
 
             <sec:authorize access="hasRole('ROLE_ADMIN')">

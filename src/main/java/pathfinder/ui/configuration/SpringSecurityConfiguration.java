@@ -1,16 +1,12 @@
 package pathfinder.ui.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
-import java.util.Arrays;
+import pathfinder.services.UserService;
 
 /**
  * A spring boot security konfigurációs állománya.
@@ -21,6 +17,9 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private UserService userService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -44,12 +43,22 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .defaultSuccessUrl("/user/user_details.jsf");
     }
 
+//    @Override
+//    protected UserDetailsService userDetailsService() {
+//        List<UserDetails> userDetailsList = new ArrayList<>();
+//        userDetailsList.add(new User("admin", "admin", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN")));
+//        List<pathfinder.model.nodes.User> allUser = userService.getAllUser();
+//        for (pathfinder.model.nodes.User userElement : allUser) {
+//            String role = RoleEnum.USER.equals(userElement.getRole()) ? "ROLE_USER" : "ROLE_ADMIN";
+//            UserDetails userDetails = new User(userElement.getName(), userElement.getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList(role));
+//            userDetailsList.add(userDetails);
+//        }
+//        return new InMemoryUserDetailsManager(userDetailsList);
+//    }
+
     @Override
-    protected UserDetailsService userDetailsService() {
-        // TODO dbből kell lekérni a usereket...
-        UserDetails user1 = new User("admin", "admin", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN"));
-        UserDetails user2 = new User("user", "user", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
-        return new InMemoryUserDetailsManager(Arrays.asList(user1, user2));
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(new PathFinderUserDetailsServiceImpl(userService));
     }
 
 }

@@ -1,6 +1,5 @@
 package pathfinder.ui.uilogic;
 
-import pathfinder.model.nodes.User;
 import pathfinder.model.nodes.Vehicle;
 
 import java.util.List;
@@ -35,9 +34,17 @@ public interface VehicleBean {
     void persistVehicle(Vehicle selectedVehicle);
 
     /**
-     * Lekéri a szervertől a lehetséges tulajdonosokat.
+     * Lekéri az összes járművet az adatbázisból.
      *
-     * @return Egy user lista
+     * @return A járművek egy listában
      */
-    List<User> getOwners();
+    List<Vehicle> getAllVehicle();
+
+    /**
+     * Lekér egy jármű entitást az azonosítója alapján.
+     *
+     * @param vehicleId A jármű azonosítója
+     * @return A jármű entitás
+     */
+    Vehicle getVehicleById(Long vehicleId);
 }

@@ -1,6 +1,5 @@
 package pathfinder.ui.uilogic;
 
-import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Route;
 
 import java.util.List;
@@ -35,17 +34,24 @@ public interface RouteBean {
     List<Route> searchRoute(Route searchRouteEntity);
 
     /**
-     * Lekéri a városokat a szervertől.
-     *
-     * @return Az összes város egy listában
-     */
-    List<City> getAllCity();
-
-    /**
      * Lekér egy várost az azonosítója alapján.
      *
      * @param routeId Az út azonosítója
      * @return Az út példány
      */
     Route getRouteById(Long routeId);
+
+    /**
+     * A városokba vezető utak listáját kéri le a szervertől.
+     *
+     * @return Egy utakat tartalmazó lista
+     */
+    List<Route> getRoutesToCity();
+
+    /**
+     * A városból kijövő utak listáját kéri le a szervertől.
+     *
+     * @return Egy utakat tartalmazó lista
+     */
+    List<Route> getRoutesFromCity();
 }

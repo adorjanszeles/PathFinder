@@ -3,9 +3,9 @@ package pathfinder.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import pathfinder.exceptions.badrequest.CityBadRequestException;
 import pathfinder.exceptions.badrequest.VehicleBadRequestException;
+import pathfinder.exceptions.notfound.NoPathForThisParameters;
 import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Path;
 import pathfinder.model.nodes.Vehicle;
@@ -26,7 +26,7 @@ public class PathFinderService {
 	@Autowired
 	VehicleRepository vehicleRepository;
 
-	public Path getPath(City from, City to, Vehicle vehicle) {
+	public Path getPath(City from, City to, Vehicle vehicle) throws NoPathForThisParameters {
 		City fromCity = this.cityRepository.findOne(from.getCityId());
 		if (fromCity == null) {
 			throw new CityBadRequestException();
@@ -40,6 +40,9 @@ public class PathFinderService {
 			throw new VehicleBadRequestException();
 		}
 		Path path = this.routeRepository.getPathForVehicle(from.getCityId(), to.getCityId(), vehicle.getVehicleId());
+		if(path == null) {
+			throw new NoPathForThisParameters();
+		}
 		return path;
 	}
 

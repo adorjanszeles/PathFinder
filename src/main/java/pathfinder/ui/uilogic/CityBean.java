@@ -1,7 +1,6 @@
 package pathfinder.ui.uilogic;
 
 import pathfinder.model.nodes.City;
-import pathfinder.model.nodes.Route;
 
 import java.util.List;
 
@@ -12,20 +11,6 @@ import java.util.List;
  * Date: 2016. 11. 01.
  */
 public interface CityBean {
-    /**
-     * A városokba vezető utak listáját kéri le a szervertől.
-     *
-     * @return Egy utakat tartalmazó lista
-     */
-    List<Route> getRoutesToCity();
-
-    /**
-     * A városból kijövő utak listáját kéri le a szervertől.
-     *
-     * @return Egy utakat tartalmazó lista
-     */
-    List<Route> getRoutesFromCity();
-
     /**
      * Város perzisztálása, ha van city id, akkor a meglévőt módosítja, egyébként újat hoz létre.
      *
@@ -55,4 +40,12 @@ public interface CityBean {
      * @return A város példány
      */
     City getCityById(Long cityId);
+
+    /**
+     * Lekéri a városokat a szervertől.
+     *
+     * @return Az összes város egy listában
+     */
+    List<City> getAllCity();
+
 }

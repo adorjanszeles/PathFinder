@@ -10,6 +10,8 @@ import pathfinder.ui.exceptions.PasswordsNotMatchException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A felhasználó adatainak módosításáért felelős üzleti logika implementációja.
@@ -78,6 +80,17 @@ public class UserBeanImpl extends AbstractBean implements UserBean {
         User result = null;
         try {
             result = userService.findById(userId);
+        } catch (Exception e) {
+            showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
+        }
+        return result;
+    }
+
+    @Override
+    public List<User> getOwners() {
+        List<User> result = new ArrayList<>();
+        try {
+            result.addAll(userService.getAllUser());
         } catch (Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }

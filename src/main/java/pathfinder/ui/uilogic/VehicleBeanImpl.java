@@ -2,9 +2,7 @@ package pathfinder.ui.uilogic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import pathfinder.exceptions.notfound.VehicleNotFoundException;
-import pathfinder.model.nodes.User;
 import pathfinder.model.nodes.Vehicle;
-import pathfinder.services.UserService;
 import pathfinder.services.VehicleService;
 import pathfinder.ui.common.Messages;
 
@@ -25,8 +23,6 @@ import java.util.List;
 public class VehicleBeanImpl extends AbstractBean implements VehicleBean {
     @Autowired
     private VehicleService vehicleService;
-    @Autowired
-    private UserService userService;
 
     @Override
     public List<Vehicle> searchVehicle(Vehicle searchVehicleEntity) {
@@ -73,13 +69,25 @@ public class VehicleBeanImpl extends AbstractBean implements VehicleBean {
     }
 
     @Override
-    public List<User> getOwners() {
-        List<User> result = new ArrayList<>();
+    public List<Vehicle> getAllVehicle() {
+        List<Vehicle> result = new ArrayList<>();
         try {
-            result.addAll(userService.getAllUser());
+            result.addAll(vehicleService.getAllVehicles());
         } catch (Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }
         return result;
     }
+
+    @Override
+    public Vehicle getVehicleById(Long vehicleId) {
+        Vehicle result = null;
+        try {
+            result = vehicleService.findById(vehicleId);
+        } catch (Exception e) {
+            showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
+        }
+        return result;
+    }
+
 }

@@ -4,6 +4,7 @@ import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Route;
 import pathfinder.ui.common.FacesCommon;
 import pathfinder.ui.uilogic.CityBean;
+import pathfinder.ui.uilogic.RouteBean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -22,6 +23,8 @@ import java.util.List;
 public class CityDetailsBean {
     @ManagedProperty(value = "#{cityBeanImpl}")
     private CityBean cityBean;
+    @ManagedProperty(value = "#{routeBeanImpl}")
+    private RouteBean routeBean;
     private City selectedCity;
     private boolean isNew;
 
@@ -43,11 +46,11 @@ public class CityDetailsBean {
     }
 
     public List<Route> getRoutesToCity() {
-        return cityBean.getRoutesToCity();
+        return routeBean.getRoutesToCity();
     }
 
     public List<Route> getRoutesFromCity() {
-        return cityBean.getRoutesFromCity();
+        return routeBean.getRoutesFromCity();
     }
 
     public void setCityBean(CityBean cityBean) {
@@ -68,5 +71,9 @@ public class CityDetailsBean {
 
     public void setIsNew(boolean isNew) {
         this.isNew = isNew;
+    }
+
+    public void setRouteBean(RouteBean routeBean) {
+        this.routeBean = routeBean;
     }
 }

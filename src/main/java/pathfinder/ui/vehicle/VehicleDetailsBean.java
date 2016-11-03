@@ -3,6 +3,7 @@ package pathfinder.ui.vehicle;
 import pathfinder.model.nodes.User;
 import pathfinder.model.nodes.Vehicle;
 import pathfinder.ui.common.FacesCommon;
+import pathfinder.ui.uilogic.UserBean;
 import pathfinder.ui.uilogic.VehicleBean;
 
 import javax.faces.bean.ManagedBean;
@@ -19,6 +20,8 @@ import java.util.List;
 @ManagedBean
 @SessionScoped
 public class VehicleDetailsBean {
+    @ManagedProperty(value = "#{userBeanImpl}")
+    private UserBean userBean;
     @ManagedProperty(value = "#{vehicleBeanImpl}")
     private VehicleBean vehicleBean;
     private Vehicle selectedVehicle;
@@ -44,7 +47,7 @@ public class VehicleDetailsBean {
      * @return Egy user lista
      */
     public List<User> getOwnerList() {
-        return vehicleBean.getOwners();
+        return userBean.getOwners();
     }
 
     public Vehicle getSelectedVehicle() {
@@ -65,5 +68,9 @@ public class VehicleDetailsBean {
 
     public void setVehicleBean(VehicleBean vehicleBean) {
         this.vehicleBean = vehicleBean;
+    }
+
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
     }
 }
