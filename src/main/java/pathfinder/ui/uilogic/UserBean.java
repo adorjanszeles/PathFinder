@@ -49,4 +49,18 @@ public interface UserBean {
      */
     List<User> getOwners();
 
+    /**
+     * Törli a megadott felhasználót a rendszerből.
+     *
+     * @param selectedUser A kiválasztott felhasználó
+     */
+    void deleteUser(User selectedUser);
+
+    /**
+     * Keres a felhasználók között a megadott feltételekkel.
+     *
+     * @param searchUserEntity A paramétereket tartalmazó bean
+     * @return A talált felhasználók egy listában
+     */
+    List<User> searchUser(User searchUserEntity);
 }

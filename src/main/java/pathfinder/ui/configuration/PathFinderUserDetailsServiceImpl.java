@@ -13,8 +13,10 @@ import pathfinder.services.UserService;
 import java.util.List;
 
 /**
+ * Spring security user service. Innen tölti be a spring a usereket.
+ * 
  * @author Széles Adorján
- *         Date: 2016. 11. 03.
+ * Date: 2016. 11. 03.
  */
 public class PathFinderUserDetailsServiceImpl implements UserDetailsService {
     private UserService userService;

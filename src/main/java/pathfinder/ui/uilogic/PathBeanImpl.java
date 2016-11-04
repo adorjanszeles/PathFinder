@@ -1,5 +1,7 @@
 package pathfinder.ui.uilogic;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import pathfinder.exceptions.badrequest.CityBadRequestException;
 import pathfinder.exceptions.badrequest.VehicleBadRequestException;
@@ -23,11 +25,13 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean
 @ApplicationScoped
 public class PathBeanImpl extends AbstractBean implements PathBean {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PathBeanImpl.class);
     @Autowired
     private PathFinderService pathService;
 
     @Override
     public Path generatePath(City from, City to, Vehicle vehicle) {
+        LOGGER.info("generatePath(from = {}, to = {}, vehicle = {})", from, to, vehicle);
         Path result = null;
         try {
             result = pathService.getPath(from, to, vehicle);
@@ -43,6 +47,7 @@ public class PathBeanImpl extends AbstractBean implements PathBean {
         } catch(Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }
+        LOGGER.info("generatePath(result = {}) ... done", result);
         return result;
     }
 

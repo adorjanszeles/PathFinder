@@ -1,5 +1,7 @@
 package pathfinder.ui.uilogic;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import pathfinder.exceptions.notfound.VehicleNotFoundException;
 import pathfinder.model.nodes.Vehicle;
@@ -21,26 +23,30 @@ import java.util.List;
 @ManagedBean
 @ApplicationScoped
 public class VehicleBeanImpl extends AbstractBean implements VehicleBean {
+    private static final Logger LOGGER = LoggerFactory.getLogger(VehicleBeanImpl.class);
     @Autowired
     private VehicleService vehicleService;
 
     @Override
     public List<Vehicle> searchVehicle(Vehicle searchVehicleEntity) {
+        LOGGER.info("searchVehicle(searchVehicleEntity = {})", searchVehicleEntity);
         List<Vehicle> result = new ArrayList<>();
         try {
             if(searchVehicleEntity.getPlateNumber() == null) {
                 result.addAll(vehicleService.getAllVehicles());
             } else {
-                // TODO útak keresése paraméter alapján
+                result.addAll(vehicleService.searchVehicleByParams(searchVehicleEntity));
             }
         } catch(Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }
+        LOGGER.info("searchVehicle() result = {} ... done", result);
         return result;
     }
 
     @Override
     public void deleteVehicle(Vehicle vehicle) {
+        LOGGER.info("deleteVehicle(vehicle = {})", vehicle);
         try {
             vehicleService.deleteVehicle(vehicle.getVehicleId());
             showMessage(Messages.DELETE_VEHICLE_SUCCESS, FacesMessage.SEVERITY_INFO);
@@ -49,10 +55,12 @@ public class VehicleBeanImpl extends AbstractBean implements VehicleBean {
         } catch(Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }
+        LOGGER.info("deleteVehicle() ... done");
     }
 
     @Override
     public void persistVehicle(Vehicle vehicle) {
+        LOGGER.info("persistVehicle(vehicle = {})", vehicle);
         try {
             if(vehicle.getVehicleId() == null) {
                 vehicleService.saveVehicle(vehicle);
@@ -66,27 +74,32 @@ public class VehicleBeanImpl extends AbstractBean implements VehicleBean {
         } catch(Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }
+        LOGGER.info("persistVehicle() ... done");
     }
 
     @Override
     public List<Vehicle> getAllVehicle() {
+        LOGGER.info("getAllVehicle()");
         List<Vehicle> result = new ArrayList<>();
         try {
             result.addAll(vehicleService.getAllVehicles());
         } catch (Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }
+        LOGGER.info("getAllVehicle() result = {} ... done", result);
         return result;
     }
 
     @Override
     public Vehicle getVehicleById(Long vehicleId) {
+        LOGGER.info("getVehicleById(vehicleId = {})", vehicleId);
         Vehicle result = null;
         try {
             result = vehicleService.findById(vehicleId);
         } catch (Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);
         }
+        LOGGER.info("getAllVehicle() result = {} ... done", result);
         return result;
     }
 

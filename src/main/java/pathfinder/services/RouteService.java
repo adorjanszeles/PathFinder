@@ -1,14 +1,9 @@
 package pathfinder.services;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
 import pathfinder.exceptions.badrequest.CityBadRequestException;
 import pathfinder.exceptions.badrequest.RouteBadRequestException;
 import pathfinder.exceptions.notfound.RouteNotFoundException;
@@ -16,6 +11,10 @@ import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Route;
 import pathfinder.model.repositories.CityRepository;
 import pathfinder.model.repositories.RouteRepository;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -95,4 +94,8 @@ public class RouteService {
 		}
 	}
 
+	public List<Route> searchRouteByParams(Route searchRouteEntity) {
+		// TODO út keresése név alapján
+		return null;
+	}
 }

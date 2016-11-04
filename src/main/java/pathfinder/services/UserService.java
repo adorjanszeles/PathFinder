@@ -90,4 +90,9 @@ public class UserService {
 		user.setRole(RoleEnum.ADMINISTRATOR);
 		return user;
 	}
+
+	public List<User> searchUserByParams(User searchUserEntity) {
+		// TODO keresés a név, email cím és role alapján
+		return null;
+	}
 }

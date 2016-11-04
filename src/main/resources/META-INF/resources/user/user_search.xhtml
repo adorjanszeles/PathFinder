@@ -2,11 +2,43 @@
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title>Title</title>
-</head>
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <f:event type="preRenderView" listener="#{userSearchBean.searchUser}" />
+</f:view>
+<h:head>
+    <title>#{label.searchUser}</title>
+</h:head>
+<h:body>
+    <ui:include src="../templates/menu.xhtml" />
+    <h3 align="center">#{label.searchUser}</h3>
 
-</body>
+    <h:form>
+        <p:panel header="#{label.search}" style="margin-bottom:10px;">
+            <h:panelGrid columns="7" cellpadding="5">
+                <p:outputLabel for="name">#{label.name}</p:outputLabel>
+                <p:inputText id="name" value="#{userSearchBean.searchUserEntity.name}"/>
+                <p:outputLabel for="email">#{label.email}</p:outputLabel>
+                <p:inputText id="email" value="#{userSearchBean.searchUserEntity.email}"/>
+                <p:outputLabel for="role">#{label.role}</p:outputLabel>
+                <p:selectOneListbox id="role" value="#{userSearchBean.searchUserEntity.role}">
+                    <f:selectItems value="#{userSearchBean.roles}" var="role" itemLabel="#{role.name}" itemValue="#{role}" />
+                </p:selectOneListbox>
+                <p:commandButton icon="ui-icon-check" value="#{label.search}" action="#{userSearchBean.searchUser}" ajax="false"/>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+
+    <p:dataList id="userListComponent" value="#{userSearchBean.userList}" var="user" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+        <p:commandLink update="growl" action="#{userSearchBean.deleteUser}" title="#{label.delete}" styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px">
+            <f:setPropertyActionListener value="#{user}" target="#{userSearchBean.selectedUser}" />
+        </p:commandLink>
+        <h:outputText value="#{user.name}" style="display:inline-block"/>
+    </p:dataList>
+    <p:growl id="growl"/>
+</h:body>
 </html>

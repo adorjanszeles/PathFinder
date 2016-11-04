@@ -27,7 +27,7 @@
         </p:panel>
     </h:form>
 
-    <p:dataList id="routeListComponent" value="#{vehicleSearchBean.vehicleList}" var="vehicle" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+    <p:dataList id="vehicleListComponent" value="#{vehicleSearchBean.vehicleList}" var="vehicle" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
         <p:commandLink action="#{navigationBean.goToVehicleDetailsPage}" title="#{label.modify}" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
             <f:setPropertyActionListener value="#{vehicle}" target="#{vehicleDetailsBean.selectedVehicle}" />
             <f:setPropertyActionListener value="#{false}" target="#{vehicleDetailsBean.isNew}" />
