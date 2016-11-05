@@ -1,0 +1,1 @@
+CREATE (admin:User {name:"admin", age:20, email:"admin@a.a", password:"Jelszo12AA", role:"ROLE_ADMIN"})

@@ -11,12 +11,12 @@ public enum RoleEnum {
 	/**
 	 * Felhasználói jogosultság
 	 */
-	USER,
+	ROLE_USER,
 	
 	/**
 	 * Adminisztrátori jogosultság
 	 */
-	ADMINISTRATOR;
+	ROLE_ADMIN;
 
     public String getName() {
         return this.name();

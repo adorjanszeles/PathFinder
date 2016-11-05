@@ -19,6 +19,9 @@ import pathfinder.model.nodes.Route;
 @Repository
 public interface CityRepository extends GraphRepository<City> {
 
+	@Query("MATCH (c:City) WHERE c.name={name} RETURN c")
+	List<City> findByName(@Param("name") String name);
+
 	/**
 	 * A kapott paraméterhez tartozó városból vezető utak lekérdezése.
 	 * 

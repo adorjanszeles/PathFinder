@@ -1,17 +1,18 @@
 package pathfinder.services;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
 import pathfinder.exceptions.badrequest.CityBadRequestException;
 import pathfinder.exceptions.notfound.CityNotFoundException;
 import pathfinder.model.nodes.City;
 import pathfinder.model.repositories.CityRepository;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -35,6 +36,10 @@ public class CityService {
 
 	public City findById(Long cityId) {
 		return this.cityRepository.findOne(cityId);
+	}
+
+	public List<City> findCitiesByParams(City searchCityEntity) {
+		return this.cityRepository.findByName(searchCityEntity.getName());
 	}
 
 	public List<City> getAllCities() {
@@ -75,10 +80,5 @@ public class CityService {
 		if (StringUtils.isEmpty(city.getName())) {
 			throw new CityBadRequestException();
 		}
-	}
-
-	public List<City> findCitiesByParams(City searchCityEntity) {
-		// TODO város keresés név alapján
-		return null;
 	}
 }

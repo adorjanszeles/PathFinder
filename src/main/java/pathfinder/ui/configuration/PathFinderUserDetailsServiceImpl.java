@@ -31,7 +31,7 @@ public class PathFinderUserDetailsServiceImpl implements UserDetailsService {
         if(user == null) {
             throw new UserNotFoundException();
         }
-        String role = RoleEnum.USER.equals(user.getRole()) ? "ROLE_USER" : "ROLE_ADMIN";
+        String role = RoleEnum.ROLE_USER.equals(user.getRole()) ? "ROLE_USER" : "ROLE_ADMIN";
         String username = user.getName();
         String password = user.getPassword();
         List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(role);

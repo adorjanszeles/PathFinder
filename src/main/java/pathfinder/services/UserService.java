@@ -1,18 +1,20 @@
 package pathfinder.services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
 import pathfinder.common.RoleEnum;
 import pathfinder.exceptions.badrequest.UserBadRequestException;
 import pathfinder.exceptions.notfound.UserNotFoundException;
 import pathfinder.model.nodes.User;
 import pathfinder.model.repositories.UserRepository;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * {@link User} node kezelésére szolgáló Service osztály.
@@ -40,6 +42,7 @@ public class UserService {
 		persistedUser.setEmail(userFromUI.getEmail());
 		persistedUser.setName(userFromUI.getName());
 		persistedUser.setPassword(userFromUI.getPassword());
+		persistedUser.setRole(userFromUI.getRole());
 		return this.userRepository.save(persistedUser);
 	}
 
@@ -49,6 +52,12 @@ public class UserService {
 			throw new UserNotFoundException();
 		}
 		return result;
+	}
+
+	public User findByUserName(String userName) {
+		// TODO itt kellene a db-ből lekérni a user-t. Meg valahogy bele kéne
+		// tenni egy init scriptel az admin-t.
+		return this.userRepository.findByUserName(userName);
 	}
 
 	public List<User> getAllUser() {
@@ -70,29 +79,25 @@ public class UserService {
 	}
 
 	public User saveUser(User user) {
-		user.setRole(RoleEnum.USER);
+		user.setRole(RoleEnum.ROLE_USER);
 		this.validateUser(user);
 		User persistedUser = new User();
 		return this.doSaveUser(persistedUser, user);
 	}
 
-	private void validateUser(User user) {
-		if (StringUtils.isEmpty(user.getEmail()) || StringUtils.isEmpty(user.getName()) || user.getRole() == null) {
-			throw new UserBadRequestException();
-		}
-	}
-
-	public User findByUserName(String userName) {
-		// TODO itt kellene a db-ből lekérni a user-t. Meg valahogy bele kéne tenni egy init scriptel az admin-t.
-		User user = new User();
-		user.setName("a");
-		user.setPassword("a");
-		user.setRole(RoleEnum.ADMINISTRATOR);
-		return user;
-	}
-
 	public List<User> searchUserByParams(User searchUserEntity) {
 		// TODO keresés a név, email cím és role alapján
-		return null;
+		String name = searchUserEntity.getName() != null ? searchUserEntity.getName() : ".*";
+		String email = searchUserEntity.getEmail() != null ? searchUserEntity.getEmail() : ".*";
+		List<RoleEnum> roles = searchUserEntity.getRole() != null ? Arrays.asList(searchUserEntity.getRole())
+				: Arrays.asList(RoleEnum.ROLE_ADMIN, RoleEnum.ROLE_USER);
+		return this.userRepository.searchUsers(name, email, roles);
+	}
+
+	private void validateUser(User user) {
+		if (user.getRole() == null || StringUtils.isEmpty(user.getEmail()) || StringUtils.isEmpty(user.getName())
+				|| user.getRole() == null) {
+			throw new UserBadRequestException();
+		}
 	}
 }

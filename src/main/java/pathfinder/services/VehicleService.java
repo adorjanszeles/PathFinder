@@ -1,9 +1,14 @@
 package pathfinder.services;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
 import pathfinder.exceptions.badrequest.UserBadRequestException;
 import pathfinder.exceptions.badrequest.VehicleBadRequestException;
 import pathfinder.exceptions.notfound.UserNotFoundException;
@@ -12,10 +17,6 @@ import pathfinder.model.nodes.User;
 import pathfinder.model.nodes.Vehicle;
 import pathfinder.model.repositories.UserRepository;
 import pathfinder.model.repositories.VehicleRepository;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -91,6 +92,10 @@ public class VehicleService {
 		return this.doSaveVehicle(persistedVehicle, vehicle);
 	}
 
+	public List<Vehicle> searchVehicleByParams(Vehicle searchVehicleEntity) {
+		return this.vehicleRepository.findByPlateNumber(searchVehicleEntity.getPlateNumber());
+	}
+
 	public void validateVehicle(Vehicle vehicle) {
 		if (StringUtils.isEmpty(vehicle.getPlateNumber()) || vehicle.getHeight() == null
 				|| vehicle.getHeight().compareTo(0L) <= 0 || vehicle.getLength() == null
@@ -99,10 +104,5 @@ public class VehicleService {
 				|| vehicle.getWidth().compareTo(0L) <= 0) {
 			throw new VehicleBadRequestException();
 		}
-	}
-
-	public List<Vehicle> searchVehicleByParams(Vehicle searchVehicleEntity) {
-		// TODO keresés rendszám alapján
-		return null;
 	}
 }

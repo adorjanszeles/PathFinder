@@ -1,9 +1,14 @@
 package pathfinder.services;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
 import pathfinder.exceptions.badrequest.CityBadRequestException;
 import pathfinder.exceptions.badrequest.RouteBadRequestException;
 import pathfinder.exceptions.notfound.RouteNotFoundException;
@@ -11,10 +16,6 @@ import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Route;
 import pathfinder.model.repositories.CityRepository;
 import pathfinder.model.repositories.RouteRepository;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -86,16 +87,15 @@ public class RouteService {
 		return this.doSaveRoute(persistedRoute, route);
 	}
 
+	public List<Route> searchRouteByParams(Route searchRouteEntity) {
+		return this.routeRepository.findByName(searchRouteEntity.getName());
+	}
+
 	private void validateRoute(Route route) {
 		if (StringUtils.isEmpty(route.getName()) || route.getLength() == null || route.getLength() < 0
 				|| route.getMaxHeight() < 0 || route.getMaxLength() < 0 || route.getMaxWeight() < 0
 				|| route.getMaxWidth() < 0 || route.getDestinationCity() == null || route.getStartingCity() == null) {
 			throw new RouteBadRequestException();
 		}
-	}
-
-	public List<Route> searchRouteByParams(Route searchRouteEntity) {
-		// TODO út keresése név alapján
-		return null;
 	}
 }

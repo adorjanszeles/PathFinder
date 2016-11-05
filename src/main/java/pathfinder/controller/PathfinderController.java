@@ -295,4 +295,9 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 		return this.vehicleService.saveVehicle(vehicle);
 	}
 
+	@RequestMapping(value = "/user/search", method = RequestMethod.POST)
+	public @ResponseBody List<User> searchUsers(@RequestBody User user) {
+		return this.userService.searchUserByParams(user);
+	}
+
 }

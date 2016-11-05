@@ -6,9 +6,7 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
 import pathfinder.common.RoleEnum;
 
@@ -16,75 +14,75 @@ import pathfinder.common.RoleEnum;
 @NodeEntity
 public class User {
 
-	@GraphId
-	private Long userId;
-	
+	private Integer age;
+
 	private String email;
+	private String name;
 	@JsonIgnore
 	private String password;
-	private String name;
-	private Integer age;
-	
 	private RoleEnum role;
-	
+
+	@GraphId
+	private Long userId;
+
+	@JsonIgnore
+	@Relationship(type = "OWNER", direction = Relationship.INCOMING)
+	private List<Vehicle> vehicles;
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
 	public RoleEnum getRole() {
 		return role;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public List<Vehicle> getVehicles() {
+		return vehicles;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setRole(RoleEnum role) {
 		this.role = role;
 	}
 
-	@JsonIgnore
-	@Relationship(type="OWNER", direction=Relationship.INCOMING)
-	private List<Vehicle> vehicles;
-	
-	public List<Vehicle> getVehicles() {
-		return vehicles;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public void setVehicles(List<Vehicle> vehicles) {
 		this.vehicles = vehicles;
 	}
 
-	public Long getUserId() {
-		return userId;
-	}
-	
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public Integer getAge() {
-		return age;
-	}
-	
-	public void setAge(Integer age) {
-		this.age = age;
-	}
-	
 }
