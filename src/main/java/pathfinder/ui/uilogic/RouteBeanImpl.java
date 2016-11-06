@@ -118,4 +118,12 @@ public class RouteBeanImpl extends AbstractBean implements RouteBean {
         return result;
     }
 
+    /**
+     * Függőség injektáló metódus a tesztekhez.
+     *
+     * @param routeService A mockolt route service
+     */
+    void setRouteService(RouteService routeService) {
+        this.routeService = routeService;
+    }
 }

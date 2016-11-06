@@ -5,7 +5,6 @@
               version="2.2">
     <name>PathFinder</name>
     <application>
-        <!--el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver-->
         <resource-bundle>
             <base-name>pathfinder.properties.label</base-name>
             <var>label</var>

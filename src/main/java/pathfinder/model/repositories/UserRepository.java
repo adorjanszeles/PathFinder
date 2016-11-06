@@ -1,14 +1,13 @@
 package pathfinder.model.repositories;
 
-import java.util.List;
-
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import pathfinder.common.RoleEnum;
 import pathfinder.model.nodes.User;
+
+import java.util.List;
 
 /**
  * {@link User} node kezelésére szolgáló repository interface.

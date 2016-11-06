@@ -36,10 +36,13 @@ public class FacesCommon {
      * @return Az üzenet szövege
      */
     public static String getMessage(FacesContext context, Messages message) {
-        Locale locale = context.getViewRoot().getLocale();
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        ResourceBundle bundle = ResourceBundle.getBundle("pathfinder.properties.messages", locale, loader);
-        return bundle.getString(message.name());
+        if(context.getViewRoot() != null) {
+            Locale locale = context.getViewRoot().getLocale();
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            ResourceBundle bundle = ResourceBundle.getBundle("pathfinder.properties.messages", locale, loader);
+            return bundle.getString(message.name());
+        }
+        return message.name();
     }
 
 }

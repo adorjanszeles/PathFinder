@@ -1,19 +1,18 @@
 package pathfinder.model.repositories;
 
-import java.util.List;
-
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import pathfinder.model.nodes.Path;
 import pathfinder.model.nodes.Route;
+
+import java.util.List;
 
 @Repository
 public interface RouteRepository extends GraphRepository<Route> {
 
-	@Query("MATCH (c1:City)-[r:ROUTE]->(c2:City) WHERE r.name={name} RETURN r")
+	@Query("MATCH (c1:City)-[r:ROUTE]->(c2:City) WHERE r.name CONTAINS {name} RETURN r")
 	List<Route> findByName(@Param("name") String name);
 
 	@Query("MATCH (v:Vehicle), (c1:City)-[r:ROUTE*]->(c2:City) "

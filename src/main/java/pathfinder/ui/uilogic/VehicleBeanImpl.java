@@ -103,4 +103,12 @@ public class VehicleBeanImpl extends AbstractBean implements VehicleBean {
         return result;
     }
 
+    /**
+     * A tesztek miatti mockolt függőség injektálása.
+     *
+     * @param vehicleService A mockolt vehicle service
+     */
+    void setVehicleService(VehicleService vehicleService) {
+        this.vehicleService = vehicleService;
+    }
 }

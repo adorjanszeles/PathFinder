@@ -36,7 +36,6 @@ public class UserBeanImpl extends AbstractBean implements UserBean {
         LOGGER.info("getLoggedInUser()");
         User result = null;
         try {
-            // TODO nem biztos hogy jó...
             String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
             result = userService.findByUserName(loggedInUserName);
             if(result == null) {
@@ -144,5 +143,14 @@ public class UserBeanImpl extends AbstractBean implements UserBean {
         }
         LOGGER.info("searchUser() result = {} ... done", result);
         return result;
+    }
+
+    /**
+     * Függőség injektáló metódus a tezstek miatt.
+     *
+     * @param userService A mockolt user service
+     */
+    void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

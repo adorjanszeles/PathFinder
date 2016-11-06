@@ -51,4 +51,12 @@ public class PathBeanImpl extends AbstractBean implements PathBean {
         return result;
     }
 
+    /**
+     * A tesztek miatti mockolt függőség injektálása.
+     *
+     * @param pathService A mockolt path service
+     */
+    void setPathService(PathFinderService pathService) {
+        this.pathService = pathService;
+    }
 }

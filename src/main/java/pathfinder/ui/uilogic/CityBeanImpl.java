@@ -102,4 +102,13 @@ public class CityBeanImpl extends AbstractBean implements CityBean {
         LOGGER.info("getAllCity() result = {} ... done", result);
         return result;
     }
+
+    /**
+     * Függőség setter metódus a tesztek miatt.
+     *
+     * @param cityService A mockolt city service
+     */
+    void setCityService(CityService cityService) {
+        this.cityService = cityService;
+    }
 }
