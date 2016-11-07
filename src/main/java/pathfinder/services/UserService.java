@@ -6,6 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -13,6 +17,7 @@ import org.springframework.util.StringUtils;
 import pathfinder.common.RoleEnum;
 import pathfinder.exceptions.badrequest.UserBadRequestException;
 import pathfinder.exceptions.notfound.UserNotFoundException;
+import pathfinder.exceptions.unauthorized.UnauthorizedException;
 import pathfinder.model.nodes.User;
 import pathfinder.model.repositories.UserRepository;
 
@@ -55,8 +60,6 @@ public class UserService {
 	}
 
 	public User findByUserName(String userName) {
-		// TODO itt kellene a db-ből lekérni a user-t. Meg valahogy bele kéne
-		// tenni egy init scriptel az admin-t.
 		return this.userRepository.findByUserName(userName);
 	}
 
@@ -69,11 +72,31 @@ public class UserService {
 		return result;
 	}
 
+	public User getLoggedInUser() {
+		SecurityContext securityContext = SecurityContextHolder.getContext();
+		Authentication authentication = securityContext.getAuthentication();
+		String userName = null;
+		if (authentication != null) {
+			if (authentication.getPrincipal() instanceof UserDetails) {
+				UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
+				userName = springSecurityUser.getUsername();
+			} else if (authentication.getPrincipal() instanceof String) {
+				userName = (String) authentication.getPrincipal();
+			}
+		}
+		return this.userRepository.findByUserName(userName);
+	}
+
 	public User modifyUser(Long userId, User user) {
 		this.validateUser(user);
 		User persistedUser = this.userRepository.findOne(userId);
 		if (persistedUser == null) {
 			throw new UserNotFoundException();
+		}
+		User loggedInUser = this.getLoggedInUser();
+		if (loggedInUser.getRole() != RoleEnum.ROLE_ADMIN
+				&& !persistedUser.getUserId().equals(loggedInUser.getUserId())) {
+			throw new UnauthorizedException();
 		}
 		return this.doSaveUser(persistedUser, user);
 	}

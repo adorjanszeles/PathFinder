@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,31 +48,34 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	private VehicleService vehicleService;
 
 	/**
-	 * Város törlése TODO csak admin joggal
+	 * Város törlése
 	 * 
 	 * @param cityId
 	 */
 	@RequestMapping(value = "/city/{cityId}", method = RequestMethod.DELETE)
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	public @ResponseBody void deleteCity(@PathVariable("cityId") Long cityId) {
 		this.cityService.deleteCity(cityId);
 	}
 
 	/**
-	 * Útvonal törlése TODO csak admin joggal
+	 * Útvonal törlése.
 	 * 
 	 * @param routeId
 	 */
 	@RequestMapping(value = "/route/{routeId}", method = RequestMethod.DELETE)
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	public @ResponseBody void deleteRoute(@PathVariable("routeId") Long routeId) {
 		this.routeService.deleteRoute(routeId);
 	}
 
 	/**
-	 * Felhasználó törlése. TODO Csak admin joggal!
+	 * Felhasználó törlése.
 	 * 
 	 * @param user
 	 */
 	@RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE)
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	public @ResponseBody void deleteUser(@PathVariable("userId") Long userId) {
 		this.userService.deleteUser(userId);
 	}
@@ -82,6 +86,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @param vehicle
 	 */
 	@RequestMapping(value = "/vehicle/{vehicleId}", method = RequestMethod.DELETE)
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody void deleteVehicle(@PathVariable("vehicleId") Long vehicleId) {
 		this.vehicleService.deleteVehicle(vehicleId);
 	}
@@ -92,6 +97,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@RequestMapping(value = "/city", method = RequestMethod.GET, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody List<City> getCities() {
 		return this.cityService.getAllCities();
 	}
@@ -103,6 +109,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@RequestMapping(value = "/city/{cityId}", method = RequestMethod.GET, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody City getCityWithRoutes(@PathVariable("cityId") Long cityId) {
 		return this.cityService.getCityWithRoutes(cityId);
 	}
@@ -114,6 +121,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@RequestMapping(value = "/path", method = RequestMethod.POST)
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody Path getPath(@RequestBody Path path) throws NoPathForThisParameters {
 		return this.pathfinderService.getPath(path.getStart(), path.getEnd(), path.getVehicle());
 	}
@@ -124,6 +132,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@RequestMapping(value = "/route", method = RequestMethod.GET, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody List<Route> getRoutes() {
 		return this.routeService.getAllRoute();
 	}
@@ -135,6 +144,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@RequestMapping(value = "/route/{routeId}", method = RequestMethod.GET, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody Route getRouteWithCities(@PathVariable("routeId") Long routeId) {
 		return this.routeService.getRouteWithCities(routeId);
 	}
@@ -145,6 +155,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@RequestMapping(value = "/user/{userId}", method = RequestMethod.GET, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody User getUser(@PathVariable("userId") Long userId) {
 		return this.userService.findById(userId);
 	}
@@ -155,17 +166,19 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@RequestMapping(value = "/user", method = RequestMethod.GET, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody List<User> getUsers() {
 		return this.userService.getAllUser();
 	}
 
 	/**
-	 * Egy jármű adatainak lekérdezése. TODO csak saját jármű vagy admin jog
+	 * Egy jármű adatainak lekérdezése.
 	 * 
 	 * @param vehicleId
 	 * @return
 	 */
 	@RequestMapping(value = "/vehicle/{vehicleId}", method = RequestMethod.GET, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody Vehicle getVehicle(@PathVariable("vehicleId") Long vehicleId) {
 		return this.vehicleService.getVehicleById(vehicleId);
 	}
@@ -176,24 +189,24 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@RequestMapping(value = "/vehicle", method = RequestMethod.GET, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	public @ResponseBody List<Vehicle> getVehicles() {
-		// Csak admin joggal!!
 		return this.vehicleService.getAllVehicles();
 	}
 
 	/**
-	 * 1 User-hez tartozó járművek lekérdezése TODO: csak saját járművek vagy
-	 * admin jog
+	 * 1 User-hez tartozó járművek lekérdezése.
 	 * 
 	 * @param vehicle
 	 */
 	@RequestMapping(value = "/user/{userId}/vehicles", method = RequestMethod.GET, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody List<Vehicle> getVehiclesOfUser(@PathVariable("userId") Long userId) {
 		return this.vehicleService.getVehiclesOfUser(userId);
 	}
 
 	/**
-	 * Város módosítása TODO csak admin joggal
+	 * Város módosítása
 	 * 
 	 * @param cityId
 	 * @param city
@@ -201,12 +214,13 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 */
 	@RequestMapping(value = "/city/{cityId}", method = RequestMethod.PUT, consumes = {
 			"application/json" }, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	public @ResponseBody City modifyCity(@PathVariable("cityId") Long cityId, @RequestBody City city) {
 		return this.cityService.modifyCity(cityId, city);
 	}
 
 	/**
-	 * Útvonal módosítása TODO csak admin joggal
+	 * Útvonal módosítása
 	 * 
 	 * @param routeId
 	 * @param route
@@ -214,6 +228,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 */
 	@RequestMapping(value = "/route/{routeId}", method = RequestMethod.PUT, consumes = {
 			"application/json" }, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	public @ResponseBody Route modifyRoute(@PathVariable("routeId") Long routeId, @RequestBody Route route) {
 		return this.routeService.modifyRoute(routeId, route);
 	}
@@ -226,20 +241,20 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 */
 	@RequestMapping(value = "/user/{userId}", method = RequestMethod.PUT, consumes = {
 			"application/json" }, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody User modifyUser(@PathVariable("userId") Long userId, @RequestBody User user) {
-		// Kezelni kell, hogy csak admin joggal lehet más usert módosítani!
 		return this.userService.modifyUser(userId, user);
 	}
 
 	/**
-	 * Jármű módosítása TODO validáció: vagy a bejelentkezett felhasználó az
-	 * owner, vagy adminhoz tartozik!
+	 * Jármű módosítása.
 	 * 
 	 * @param vehicle
 	 * @return
 	 */
 	@RequestMapping(value = "/vehicle/{vehicleId}", method = RequestMethod.PUT, consumes = {
 			"application/json" }, produces = { "application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody Vehicle modifyVehicle(@PathVariable("vehicleId") Long vehicleId,
 			@RequestBody Vehicle vehicle) {
 		return this.vehicleService.modifyVehicle(vehicleId, vehicle);
@@ -251,23 +266,25 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	}
 
 	/**
-	 * Új város felvétele TODO csak admin joggal
+	 * Új város felvétele.
 	 * 
 	 * @param city
 	 */
 	@RequestMapping(value = "/city", method = RequestMethod.POST, consumes = { "application/json" }, produces = {
 			"application/json" })
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	public @ResponseBody City saveCity(@RequestBody City city) {
 		return this.cityService.saveCity(city);
 	}
 
 	/**
-	 * Új útvonal mentése TODO csak admin joggal
+	 * Új útvonal mentése.
 	 * 
 	 * @param route
 	 */
 	@RequestMapping(value = "/route", method = RequestMethod.POST, consumes = { "application/json" }, produces = {
 			"application/json" })
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	public @ResponseBody Route saveRoute(@RequestBody Route route) {
 		return this.routeService.saveRoute(route);
 	}
@@ -279,23 +296,25 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 */
 	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = { "application/json" }, produces = {
 			"application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody User saveUser(@RequestBody User user) {
 		return this.userService.saveUser(user);
 	}
 
 	/**
-	 * Új jármű felvétele TODO a tulajdonos felületről jön, vagy a
-	 * bejelentkezett felhasználó lesz?
+	 * Új jármű felvétele.
 	 * 
 	 * @param vehicle
 	 */
 	@RequestMapping(value = "/vehicle", method = RequestMethod.POST, consumes = { "application/json" }, produces = {
 			"application/json" })
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody Vehicle saveVehicle(@RequestBody Vehicle vehicle) {
 		return this.vehicleService.saveVehicle(vehicle);
 	}
 
 	@RequestMapping(value = "/user/search", method = RequestMethod.POST)
+	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody List<User> searchUsers(@RequestBody User user) {
 		return this.userService.searchUserByParams(user);
 	}

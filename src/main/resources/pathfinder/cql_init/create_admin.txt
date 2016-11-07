@@ -1,1 +1,2 @@
-CREATE (admin:User {name:"admin", age:20, email:"admin@a.a", password:"Jelszo12AA", role:"ROLE_ADMIN"})
+CREATE (admin:User {name:"admin", age:20, email:"admin@a.a", password:"admin", role:"ROLE_ADMIN"})
+CREATE (user:User {name:"user", age:20, email:"user@u.u", password:"user", role:"ROLE_USER"})
