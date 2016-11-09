@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import pathfinder.common.RoleEnum;
 
-//@JsonIdentityInfo(generator=JSOGGenerator.class)
 @NodeEntity
 public class User {
 

@@ -1,49 +1,27 @@
 package pathfinder.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import pathfinder.exceptions.badrequest.CityBadRequestException;
-import pathfinder.exceptions.badrequest.VehicleBadRequestException;
 import pathfinder.exceptions.notfound.NoPathForThisParameters;
 import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Path;
 import pathfinder.model.nodes.Vehicle;
-import pathfinder.model.repositories.CityRepository;
-import pathfinder.model.repositories.RouteRepository;
-import pathfinder.model.repositories.VehicleRepository;
 
-@Service
-@Transactional(readOnly = false, rollbackFor = Exception.class)
-public class PathFinderService {
+/**
+ * Útkeresésre szolgáló Service.
+ * 
+ * @author Kiss László
+ *
+ */
+public interface PathFinderService {
 
-	@Autowired
-	CityRepository cityRepository;
-
-	@Autowired
-	RouteRepository routeRepository;
-
-	@Autowired
-	VehicleRepository vehicleRepository;
-
-	public Path getPath(City from, City to, Vehicle vehicle) throws NoPathForThisParameters {
-		City fromCity = this.cityRepository.findOne(from.getCityId());
-		if (fromCity == null) {
-			throw new CityBadRequestException();
-		}
-		City toCity = this.cityRepository.findOne(to.getCityId());
-		if (toCity == null) {
-			throw new CityBadRequestException();
-		}
-		Vehicle persistedVehicle = this.vehicleRepository.findOne(vehicle.getVehicleId());
-		if (persistedVehicle == null) {
-			throw new VehicleBadRequestException();
-		}
-		Path path = this.routeRepository.getPathForVehicle(from.getCityId(), to.getCityId(), vehicle.getVehicleId());
-		if(path == null) {
-			throw new NoPathForThisParameters();
-		}
-		return path;
-	}
+	/**
+	 * Út keresése a jármű számára a megadott városok között.
+	 * 
+	 * @param from
+	 * @param to
+	 * @param vehicle
+	 * @return
+	 * @throws NoPathForThisParameters
+	 */
+	Path getPath(City from, City to, Vehicle vehicle) throws NoPathForThisParameters;
 
 }

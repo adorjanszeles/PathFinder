@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import pathfinder.config.PfNeo4jConfiguration;
+import pathfinder.config.PathFinderNeo4jConfiguration;
 import pathfinder.exceptions.notfound.NoPathForThisParameters;
 import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Path;
@@ -28,9 +27,9 @@ import pathfinder.services.VehicleService;
 import pathfinder.ui.configuration.SpringSecurityConfiguration;
 
 @Configuration
-@Import(value = { PfNeo4jConfiguration.class, SpringSecurityConfiguration.class })
-@RequestMapping("/")
-public class PathfinderController extends WebMvcConfigurerAdapter {
+@Import(value = { PathFinderNeo4jConfiguration.class, SpringSecurityConfiguration.class })
+@RequestMapping("/api")
+public class PathfinderController {
 
 	@Autowired
 	private CityService cityService;
@@ -166,7 +165,7 @@ public class PathfinderController extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@RequestMapping(value = "/user", method = RequestMethod.GET, produces = { "application/json" })
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 	public @ResponseBody List<User> getUsers() {
 		return this.userService.getAllUser();
 	}
