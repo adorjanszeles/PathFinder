@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import pathfinder.exceptions.notfound.UserNotFoundException;
-import pathfinder.exceptions.notfound.VehicleNotFoundException;
 import pathfinder.model.nodes.User;
 import pathfinder.services.UserService;
 import pathfinder.ui.common.Messages;
@@ -120,7 +119,7 @@ public class UserBeanImpl extends AbstractBean implements UserBean {
         try {
             userService.deleteUser(selectedUser.getUserId());
             showMessage(Messages.DELETE_USER_SUCCESS, FacesMessage.SEVERITY_INFO);
-        } catch(VehicleNotFoundException vehicleNotFound) {
+        } catch(UserNotFoundException userNotFound) {
             showMessage(Messages.USER_NOT_FOUND, FacesMessage.SEVERITY_ERROR);
         } catch(Exception e) {
             showMessage(Messages.INTERNAL_SERVER_ERROR, FacesMessage.SEVERITY_ERROR);

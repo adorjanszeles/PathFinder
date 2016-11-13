@@ -27,35 +27,23 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(new PathFinderUserDetailsServiceImpl(userService));
 	}
 
-	// @Override
-	// protected UserDetailsService userDetailsService() {
-	// List<UserDetails> userDetailsList = new ArrayList<>();
-	// userDetailsList.add(new User("admin", "admin",
-	// AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN")));
-	// List<pathfinder.model.nodes.User> allUser = userService.getAllUser();
-	// for (pathfinder.model.nodes.User userElement : allUser) {
-	// String role = RoleEnum.USER.equals(userElement.getRole()) ? "ROLE_USER" :
-	// "ROLE_ADMIN";
-	// UserDetails userDetails = new User(userElement.getName(),
-	// userElement.getPassword(),
-	// AuthorityUtils.commaSeparatedStringToAuthorityList(role));
-	// userDetailsList.add(userDetails);
-	// }
-	// return new InMemoryUserDetailsManager(userDetailsList);
-	// }
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.userDetailsService(this.userDetailsService()).authorizeRequests().antMatchers("/login/login.jsf")
-				.permitAll().antMatchers("/path/*.jsf").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+		http.authorizeRequests()
+                .antMatchers("/login/login.jsf").permitAll()
+				.antMatchers("/path/*.jsf").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 				.antMatchers("/user/user_details.jsf").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 				.antMatchers("/vehicle/*.jsf").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 				.antMatchers("/templates/*.jsf").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-				.antMatchers("/city/*.jsf").access("hasRole('ROLE_ADMIN')").antMatchers("/route/*.jsf")
-				.access("hasRole('ROLE_ADMIN')").antMatchers("/user/registration.jsf").access("hasRole('ROLE_ADMIN')")
-				.antMatchers("/user/user_search.jsf").access("hasRole('ROLE_ADMIN')").anyRequest().authenticated().and()
-				.formLogin().loginPage("/login/login.jsf").permitAll().failureUrl("/login/login.jsf?error=true")
+				.antMatchers("/city/*.jsf").access("hasRole('ROLE_ADMIN')")
+				.antMatchers("/route/*.jsf").access("hasRole('ROLE_ADMIN')")
+				.antMatchers("/user/registration.jsf").access("hasRole('ROLE_ADMIN')")
+				.antMatchers("/user/user_search.jsf").access("hasRole('ROLE_ADMIN')")
+				.anyRequest().authenticated()
+				.and()
+				.formLogin().loginPage("/login/login.jsf").permitAll()
+				.failureUrl("/login/login.jsf?error=true")
 				.defaultSuccessUrl("/user/user_details.jsf");
 	}
 
