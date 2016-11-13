@@ -4,6 +4,7 @@ import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Path;
 import pathfinder.model.nodes.Route;
 import pathfinder.model.nodes.Vehicle;
+import pathfinder.ui.common.FacesCommon;
 import pathfinder.ui.common.NavigationBean;
 import pathfinder.ui.uilogic.CityBean;
 import pathfinder.ui.uilogic.PathBean;
@@ -51,8 +52,11 @@ public class PathGenerationBean {
      * Útvonalat generál a felhasználó által megadott paraméterek alapján.
      */
     public String generatePath() {
-        selectedPath = pathBean.generatePath(fromCity, toCity, selectedVehicle);
         isNew = false;
+        selectedPath = pathBean.generatePath(fromCity, toCity, selectedVehicle);
+        if(selectedPath == null) {
+            return FacesCommon.stayOnPage();
+        }
         return navigationBean.goToPathDetailsPage();
     }
 

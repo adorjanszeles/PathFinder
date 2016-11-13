@@ -20,7 +20,7 @@ public class PathFinderUserDetailsServiceImpl implements UserDetailsService {
 	private UserService userService;
 
 	public PathFinderUserDetailsServiceImpl(UserService userService) {
-		this.userService = userService;
+	    this.userService = userService;
 	}
 
 	@Override

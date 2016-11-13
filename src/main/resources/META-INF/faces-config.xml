@@ -13,5 +13,8 @@
             <base-name>pathfinder.properties.messages</base-name>
             <var>messages</var>
         </resource-bundle>
+        <message-bundle>
+            pathfinder.properties.validation_messages
+        </message-bundle>
     </application>
 </faces-config>

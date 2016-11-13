@@ -18,27 +18,37 @@
     <p:panelGrid>
         <h3 align="center">#{routeDetailsBean.isNew ? label.newRoute : label.modifyRoute}</h3>
         <h:form>
-            <h:panelGrid style="margin: 0 auto;" columns="2">
+            <h:panelGrid style="margin: 0 auto;" columns="3">
                 <p:outputLabel for="name">#{label.name}</p:outputLabel>
-                <p:inputText id="name" value="#{routeDetailsBean.selectedRoute.name}" required="true" />
+                <p:inputText id="name" value="#{routeDetailsBean.selectedRoute.name}" required="true" label="#{label.name}">
+                    <f:validateLength maximum="20"/>
+                </p:inputText>
+                <p:message for="name"/>
                 <p:outputLabel for="length">#{label.routeLength}</p:outputLabel>
-                <p:inputText id="length" value="#{routeDetailsBean.selectedRoute.length}" required="true" />
+                <p:inputText id="length" value="#{routeDetailsBean.selectedRoute.length}" required="true" label="#{label.routeLength}"/>
+                <p:message for="length"/>
                 <p:outputLabel for="maxHeight">#{label.routeMaxHeight}</p:outputLabel>
-                <p:inputText id="maxHeight" value="#{routeDetailsBean.selectedRoute.maxHeight}" required="true" />
+                <p:inputText id="maxHeight" value="#{routeDetailsBean.selectedRoute.maxHeight}" required="true" label="#{label.routeMaxHeight}"/>
+                <p:message for="maxHeight"/>
                 <p:outputLabel for="maxLength">#{label.routeMaxLength}</p:outputLabel>
-                <p:inputText id="maxLength" value="#{routeDetailsBean.selectedRoute.maxLength}" required="true" />
+                <p:inputText id="maxLength" value="#{routeDetailsBean.selectedRoute.maxLength}" required="true" label="#{label.routeMaxLength}" />
+                <p:message for="maxLength"/>
                 <p:outputLabel for="maxWeight">#{label.routeMaxWeight}</p:outputLabel>
-                <p:inputText id="maxWeight" value="#{routeDetailsBean.selectedRoute.maxWeight}" required="true" />
+                <p:inputText id="maxWeight" value="#{routeDetailsBean.selectedRoute.maxWeight}" required="true" label="#{label.routeMaxWeight}" />
+                <p:message for="maxWeight"/>
                 <p:outputLabel for="maxWidth">#{label.routeMaxWidth}</p:outputLabel>
-                <p:inputText id="maxWidth" value="#{routeDetailsBean.selectedRoute.maxWidth}" required="true" />
+                <p:inputText id="maxWidth" value="#{routeDetailsBean.selectedRoute.maxWidth}" required="true" label="#{label.routeMaxWidth}" />
+                <p:message for="maxWidth"/>
                 <p:outputLabel for="startingCity">#{label.startingCity}</p:outputLabel>
-                <p:selectOneListbox id="startingCity" value="#{routeDetailsBean.selectedRoute.startingCity}" required="true" converter="#{cityConverter}">
+                <p:selectOneListbox id="startingCity" value="#{routeDetailsBean.selectedRoute.startingCity}" required="true" converter="#{cityConverter}" label="#{label.startingCity}">
                     <f:selectItems value="#{routeDetailsBean.cityList}" var="startingCity" itemLabel="#{startingCity.name}" itemValue="#{startingCity}" />
                 </p:selectOneListbox>
+                <p:message for="startingCity"/>
                 <p:outputLabel for="destinationCity">#{label.destinationCity}</p:outputLabel>
-                <p:selectOneListbox id="destinationCity" value="#{routeDetailsBean.selectedRoute.destinationCity}" required="true" converter="#{cityConverter}">
+                <p:selectOneListbox id="destinationCity" value="#{routeDetailsBean.selectedRoute.destinationCity}" required="true" converter="#{cityConverter}" label="#{label.destinationCity}">
                     <f:selectItems value="#{routeDetailsBean.cityList}" var="destinationCity" itemLabel="#{destinationCity.name}" itemValue="#{destinationCity}" />
                 </p:selectOneListbox>
+                <p:message for="destinationCity"/>
             </h:panelGrid>
             <h:panelGrid style="margin: 0 auto;" columns="1">
                 <p:commandButton value="#{routeDetailsBean.isNew ? label.save : label.modify}" action="#{routeDetailsBean.persistRoute}" update="growl" ajax="false"/>
