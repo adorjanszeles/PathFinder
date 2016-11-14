@@ -10,30 +10,30 @@
 <ui:composition>
     <h:form>
         <p:menubar style="background: #DCDCDC !important;">
-            <p:submenu label="#{label.users}" icon="ui-icon-clipboard">
+            <p:submenu label="#{label.users}" icon="ui-icon-person">
                 <p:menuitem value="#{label.userDetails}" action="#{navigationBean.goToUserDetailsPage}" ajax="false" icon="ui-icon-person"/>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
-                    <p:menuitem value="#{label.registration}" action="#{navigationBean.goToUserRegistrationPage}" ajax="false" icon="ui-icon-person"/>
-                    <p:menuitem value="#{label.searchUser}" action="#{navigationBean.goToUserSearchPage}" ajax="false" icon="ui-icon-person"/>
+                    <p:menuitem value="#{label.registration}" action="#{navigationBean.goToUserRegistrationPage}" ajax="false" icon="ui-icon-plus"/>
+                    <p:menuitem value="#{label.searchUser}" action="#{navigationBean.goToUserSearchPage}" ajax="false" icon="ui-icon-search"/>
                 </sec:authorize>
             </p:submenu>
 
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <p:submenu label="#{label.vehicles}" icon="ui-icon-person">
+                <p:submenu label="#{label.vehicles}" icon="ui-icon-wrench">
                     <p:menuitem value="#{label.newVehicle}" action="#{navigationBean.goToVehicleDetailsPage}" ajax="false" icon="ui-icon-plus">
                         <f:setPropertyActionListener value="#{true}" target="#{vehicleDetailsBean.isNew}" />
                     </p:menuitem>
                     <p:menuitem value="#{label.searchVehicle}" action="#{navigationBean.goToVehicleSearchPage}" ajax="false" icon="ui-icon-search" />
                 </p:submenu>
 
-                <p:submenu label="#{label.routes}" icon="ui-icon-clipboard">
+                <p:submenu label="#{label.routes}" icon="ui-icon-grip-solid-horizontal">
                     <p:menuitem value="#{label.newRoute}" action="#{navigationBean.goToRouteDetailsPage}" ajax="false" icon="ui-icon-plus" >
                         <f:setPropertyActionListener value="#{true}" target="#{routeDetailsBean.isNew}" />
                     </p:menuitem>
                     <p:menuitem value="#{label.searchRoutes}" action="#{navigationBean.goToRouteSearchPage}" ajax="false" icon="ui-icon-search" />
                 </p:submenu>
 
-                <p:submenu label="#{label.cities}" icon="ui-icon-clipboard">
+                <p:submenu label="#{label.cities}" icon="ui-icon-image">
                     <p:menuitem value="#{label.newCity}" action="#{navigationBean.goToCityDetailsPage}" ajax="false" icon="ui-icon-plus">
                         <f:setPropertyActionListener value="#{true}" target="#{cityDetailsBean.isNew}" />
                     </p:menuitem>
