@@ -16,7 +16,7 @@
         <h:form>
             <h:panelGrid style="margin: 0 auto;" columns="3">
                 <p:outputLabel for="name">#{label.name}</p:outputLabel>
-                <p:inputText id="name" value="#{userDetailsBean.loggedInUser.name}" required="true" label="#{label.name}"/>
+                <p:inputText id="name" value="#{userDetailsBean.loggedInUser.name}" readonly="true" label="#{label.name}"/>
                 <p:message for="name"/>
                 <p:outputLabel for="age">#{label.age}</p:outputLabel>
                 <p:inputText id="age" value="#{userDetailsBean.loggedInUser.age}" required="true" label="#{label.age}"/>

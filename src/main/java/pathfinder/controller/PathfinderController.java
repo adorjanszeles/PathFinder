@@ -26,8 +26,6 @@ import pathfinder.services.UserService;
 import pathfinder.services.VehicleService;
 import pathfinder.ui.configuration.SpringSecurityConfiguration;
 
-@Configuration
-@Import(value = { PathFinderNeo4jConfiguration.class, SpringSecurityConfiguration.class })
 @RequestMapping("/api")
 public class PathfinderController {
 

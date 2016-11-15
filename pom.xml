@@ -11,10 +11,9 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<neo4j.version>3.0.6</neo4j.version>
-		<start-class>pathfinder.controller.PathfinderController</start-class>
+		<start-class>pathfinder.application.Application</start-class>
 		<spring-data-neo4j.version>4.1.4.RELEASE</spring-data-neo4j.version>
-		<spring-data-releasetrain.version>Hopper-SR1
-		</spring-data-releasetrain.version>
+		<spring-data-releasetrain.version>Hopper-SR1</spring-data-releasetrain.version>
 	</properties>
 
 	<parent>
@@ -83,9 +82,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

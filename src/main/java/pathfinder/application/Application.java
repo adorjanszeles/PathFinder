@@ -1,8 +1,12 @@
 package pathfinder.application;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import pathfinder.controller.PathfinderController;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import pathfinder.config.PathFinderNeo4jConfiguration;
+import pathfinder.ui.configuration.SpringSecurityConfiguration;
 
 import java.io.IOException;
 
@@ -12,6 +16,9 @@ import java.io.IOException;
  * @author Széles Adorján
  * Date: 2016. 10. 22.
  */
+@ComponentScan(basePackages = { "pathfinder.services" })
+@Import(value = { PathFinderNeo4jConfiguration.class, SpringSecurityConfiguration.class })
+@EnableAutoConfiguration
 @SpringBootApplication
 public class Application {
     /**
@@ -19,7 +26,7 @@ public class Application {
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
-        SpringApplication.run(PathfinderController.class, args);
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
     }
 }

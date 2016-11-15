@@ -1,15 +1,11 @@
 package pathfinder.config;
 
 import org.neo4j.ogm.session.SessionFactory;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.config.Neo4jConfiguration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
-@EnableAutoConfiguration
-@ComponentScan(basePackages = { "pathfinder.services" })
 @Configuration
 @EnableNeo4jRepositories(basePackages = "pathfinder.model.repositories")
 public class PathFinderNeo4jConfiguration extends Neo4jConfiguration {
