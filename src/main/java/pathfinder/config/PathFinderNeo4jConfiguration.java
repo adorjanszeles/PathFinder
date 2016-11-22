@@ -20,6 +20,6 @@ public class PathFinderNeo4jConfiguration extends Neo4jConfiguration {
 
 	@Override
 	public SessionFactory getSessionFactory() {
-		return new SessionFactory(getConfiguration(), "pathfinder.model.nodes");
+		return new SessionFactory(getConfiguration(), "pathfinder.model.nodes", "BOOT-INF.classes.pathfinder.model.nodes");
 	}
 }
