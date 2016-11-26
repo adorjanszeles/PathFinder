@@ -13,7 +13,8 @@
 		<neo4j.version>3.0.6</neo4j.version>
 		<start-class>pathfinder.application.Application</start-class>
 		<spring-data-neo4j.version>4.1.4.RELEASE</spring-data-neo4j.version>
-		<spring-data-releasetrain.version>Hopper-SR1</spring-data-releasetrain.version>
+		<spring-data-releasetrain.version>Hopper-SR1
+		</spring-data-releasetrain.version>
 	</properties>
 
 	<parent>
@@ -92,6 +93,16 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<executable>true</executable>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12.4</version>
+				<configuration>
+					<excludes>
+						<exclude>pathfinder.service.test.*</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>
