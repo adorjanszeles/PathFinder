@@ -3,8 +3,6 @@ package pathfinder.model.nodes;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  * Jármű entitás
  * 
@@ -26,7 +24,6 @@ public class Vehicle {
 	/**
 	 * Tulajdonos
 	 */
-	@JsonIgnore
 	private User owner;
 
 	/**

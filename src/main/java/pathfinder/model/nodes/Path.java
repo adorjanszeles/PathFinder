@@ -4,17 +4,38 @@ import java.util.List;
 
 import org.springframework.data.neo4j.annotation.QueryResult;
 
+/**
+ * Egy útkeresés eredményét tartalmazó osztály.
+ * 
+ * @author Kiss László
+ *
+ */
 @QueryResult
 public class Path {
 
+	/**
+	 * Cél város
+	 */
 	private City end;
 
+	/**
+	 * Utak listája
+	 */
 	private List<Route> routes;
 
+	/**
+	 * Kiinduló város
+	 */
 	private City start;
 
+	/**
+	 * Út hossza
+	 */
 	private Long sumLength;
 
+	/**
+	 * Jármű
+	 */
 	private Vehicle vehicle;
 
 	public City getEnd() {

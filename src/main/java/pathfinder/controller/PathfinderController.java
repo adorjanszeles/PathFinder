@@ -108,7 +108,7 @@ public class PathfinderController {
 	@RequestMapping(value = "/city/{cityId}", method = RequestMethod.GET, produces = { "application/json" })
 	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody City getCityWithRoutes(@PathVariable("cityId") Long cityId) {
-		return this.cityService.getCityWithRoutes(cityId);
+		return this.routeService.getCityWithRoutes(cityId);
 	}
 
 	/**
@@ -293,7 +293,6 @@ public class PathfinderController {
 	 */
 	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = { "application/json" }, produces = {
 			"application/json" })
-	@PreAuthorize("isAuthenticated()")
 	public @ResponseBody User saveUser(@RequestBody User user) {
 		return this.userService.saveUser(user);
 	}

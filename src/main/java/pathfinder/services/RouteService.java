@@ -2,6 +2,7 @@ package pathfinder.services;
 
 import java.util.List;
 
+import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Route;
 
 /**
@@ -25,6 +26,14 @@ public interface RouteService {
 	 * @return
 	 */
 	List<Route> getAllRoute();
+
+	/**
+	 * Város és a hozzá tartozó utak lekérdezése.
+	 * 
+	 * @param cityId
+	 * @return
+	 */
+	City getCityWithRoutes(Long cityId);
 
 	/**
 	 * Útvonal lekérdezése a hozzá tartozó városokkal.
@@ -58,5 +67,4 @@ public interface RouteService {
 	 * @return
 	 */
 	List<Route> searchRouteByParams(Route searchRouteEntity);
-
 }

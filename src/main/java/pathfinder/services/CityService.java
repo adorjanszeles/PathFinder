@@ -43,14 +43,6 @@ public interface CityService {
 	List<City> getAllCities();
 
 	/**
-	 * Város és a hozzá tartozó utak lekérdezése.
-	 * 
-	 * @param cityId
-	 * @return
-	 */
-	City getCityWithRoutes(Long cityId);
-
-	/**
 	 * Város módosítása.
 	 * 
 	 * @param cityId

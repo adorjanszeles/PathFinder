@@ -38,7 +38,11 @@ public class CityServiceImpl implements CityService {
 
 	@Override
 	public City findById(Long cityId) {
-		return this.cityRepository.findOne(cityId);
+		City city = this.cityRepository.findOne(cityId);
+		if (city == null) {
+			throw new CityNotFoundException();
+		}
+		return city;
 	}
 
 	@Override
@@ -54,17 +58,6 @@ public class CityServiceImpl implements CityService {
 			result.add(iterator.next());
 		}
 		return result;
-	}
-
-	@Override
-	public City getCityWithRoutes(Long cityId) {
-		City persistedCity = this.cityRepository.findOne(cityId);
-		if (persistedCity == null) {
-			throw new CityNotFoundException();
-		}
-		persistedCity.setRoutesToCity(this.cityRepository.findRoutesToCity(cityId));
-		persistedCity.setRoutesFromCity(this.cityRepository.findRoutesFromCity(cityId));
-		return persistedCity;
 	}
 
 	@Override

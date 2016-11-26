@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import pathfinder.exceptions.badrequest.CityBadRequestException;
 import pathfinder.exceptions.badrequest.RouteBadRequestException;
+import pathfinder.exceptions.notfound.CityNotFoundException;
 import pathfinder.exceptions.notfound.RouteNotFoundException;
 import pathfinder.model.nodes.City;
 import pathfinder.model.nodes.Route;
@@ -65,6 +66,17 @@ public class RouteServiceImpl implements RouteService {
 			result.add(iterator.next());
 		}
 		return result;
+	}
+
+	@Override
+	public City getCityWithRoutes(Long cityId) {
+		City persistedCity = this.cityRepository.findOne(cityId);
+		if (persistedCity == null) {
+			throw new CityNotFoundException();
+		}
+		persistedCity.setRoutesToCity(this.routeRepository.findRoutesToCity(cityId));
+		persistedCity.setRoutesFromCity(this.routeRepository.findRoutesFromCity(cityId));
+		return persistedCity;
 	}
 
 	@Override
