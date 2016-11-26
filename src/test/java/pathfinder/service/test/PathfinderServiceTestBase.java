@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import pathfinder.application.Application;
 import pathfinder.common.RoleEnum;
 import pathfinder.config.PathFinderNeo4jConfiguration;
 import pathfinder.model.nodes.City;
@@ -26,7 +27,7 @@ import pathfinder.model.repositories.RouteRepository;
 import pathfinder.model.repositories.UserRepository;
 import pathfinder.model.repositories.VehicleRepository;
 
-@ContextConfiguration(classes = PathFinderNeo4jConfiguration.class)
+@ContextConfiguration(classes = Application.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public abstract class PathfinderServiceTestBase {
 
